@@ -1,12 +1,14 @@
-import React from 'react'
-import './Component.css'
+import React, { Component } from 'react'
+// import './Component.css'
 
-const Component = props => {
-    return (
-        <div className='Component'>
-            {'Some text'}
-        </div>
-    )
+class Poll extends Component {
+    render () {
+        return (
+            <div className='Poll'>
+                Poll #{this.props.match.params.poll_id}
+            </div>
+        )
+    }
 }
 
-export default Component
+export default Poll
