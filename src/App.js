@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Nav from './components/Nav';
 import Footer from './components/Footer'
+import AllPolls from './components/AllPolls'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
             <Router>
                 <div>
                     <Nav />
+                    <Route path='/allpolls' component={AllPolls} />
                     <Footer />
                 </div>
             </Router>
