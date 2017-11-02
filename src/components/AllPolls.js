@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 // import './Component.css'
 
 const initialState = {
@@ -20,7 +21,14 @@ class AllPolls extends Component {
         return (
             <div className='AllPolls'>
                 <ul>
-                {polls.map(poll => <li key={poll.poll_id}>{poll.poll_id}. {poll.title}</li>)}
+                    {polls.map(poll => {
+                        const {title, poll_id} = poll
+                        return (
+                            <li key={poll_id}>
+                                <Link to={`/polls/${poll_id}`}>{title}</Link>
+                            </li>
+                        )
+                    })}
                 </ul>
             </div>
         )
