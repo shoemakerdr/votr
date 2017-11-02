@@ -4,7 +4,8 @@ import './App.css';
 import Nav from './components/Nav';
 import Footer from './components/Footer'
 import AllPolls from './components/AllPolls'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Poll from './components/Poll'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 class App extends Component {
   render() {
@@ -16,7 +17,10 @@ class App extends Component {
             <Router>
                 <div>
                     <Nav />
-                    <Route path='/allpolls' component={AllPolls} />
+                    <Switch>
+                        <Route exact path='/polls' component={AllPolls} />
+                        <Route path='/polls/:poll_id' component={Poll} />
+                    </Switch>
                     <Footer />
                 </div>
             </Router>
