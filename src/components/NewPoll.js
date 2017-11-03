@@ -1,12 +1,12 @@
 import React from 'react'
-import './Component.css'
+// import './NewPoll.css'
 
-const Component = props => {
+const NewPoll = props => {
     return (
-        <div className='Component'>
-            {'Some text'}
+        <div className='NewPoll'>
+            {'CREATE A NEW POLL'}
         </div>
     )
 }
 
-export default Component
+export default NewPoll

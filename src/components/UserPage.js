@@ -1,12 +1,12 @@
 import React from 'react'
-import './Component.css'
+// import './UserPage.css'
 
-const Component = props => {
+const UserPage = props => {
     return (
-        <div className='Component'>
-            {'Some text'}
+        <div className='UserPage'>
+            {`Polls for user #${props.match.params.user_id}`}
         </div>
     )
 }
 
-export default Component
+export default UserPage

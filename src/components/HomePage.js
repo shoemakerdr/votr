@@ -1,14 +1,12 @@
 import React from 'react'
-import './Component.css'
+// import './HomePage.css'
 
-const Component = props => {
-    render() {
-        return (
-            <div className='Component'>
-                {'Some text'}
-            </div>
-        )
-    }
+const HomePage = props => {
+    return (
+        <div className='HomePage'>
+            {'WELCOME TO VOTR!'}
+        </div>
+    )
 }
 
-export default Component
+export default HomePage
