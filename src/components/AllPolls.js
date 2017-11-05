@@ -16,6 +16,15 @@ class AllPolls extends Component {
         this.state = { ...initialState }
     }
 
+    componentDidMount () {
+        this.fetchPolls().then(polls => this.setState({polls: polls}))
+    }
+
+    fetchPolls () {
+        return fetch('http://localhost:8000/api/polls')
+            .then(data => data.json())
+    }
+
     render () {
         const { polls } = this.state
         return (
