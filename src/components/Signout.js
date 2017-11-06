@@ -1,11 +1,11 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 // import './Signout.css'
 
 const Signout = props => {
+    props.signOutUser()
     return (
-        <div className='Signout'>
-            {'LOGIN TO VOTR!'}
-        </div>
+        <Redirect to='/' />
     )
 }
 
