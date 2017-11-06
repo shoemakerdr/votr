@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { Component } from 'react'
 // import './Login.css'
 
-const Login = props => {
-    return (
-        <div className='Login'>
-            {'LOGIN TO VOTR!'}
-        </div>
-    )
+class Login extends Component {
+    constructor (props) {
+        super()
+    }
+
+    componentDidMount () {
+        this.props.logInUser()
+    }
+
+    render () {
+        return (
+            <div className='Login'>
+                You are now logged in!
+            </div>
+        )
+    }
 }
 
 export default Login
