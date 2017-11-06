@@ -22,7 +22,7 @@ class Poll extends Component {
     }
 
     fetchPoll () {
-        fetch(`http://localhost:8000/api/polls/${this.props.match.params.poll_id}`)
+        fetch(`${this.props.api}/polls/${this.props.match.params.poll_id}`)
             .then(data => data.json())
             .then(poll => this.setState({poll: poll}))
     }
@@ -36,12 +36,12 @@ class Poll extends Component {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: params
         }
-        fetch(`http://localhost:8000/api/polls/${this.props.match.params.poll_id}/vote`, options)
+        fetch(`${this.props.api}/polls/${this.props.match.params.poll_id}/vote`, options)
             .then(() => this.fetchPoll())
     }
 
     deletePoll () {
-        fetch(`http://localhost:8000/api/polls/${this.props.match.params.poll_id}`, {method:'DELETE'})
+        fetch(`${this.props.api}/polls/${this.props.match.params.poll_id}`, {method:'DELETE'})
             .then(() => this.setState({redirect: true}))
     }
 
