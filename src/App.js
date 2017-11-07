@@ -93,7 +93,7 @@ class App extends Component {
                             <Route path='/signout' render={() =>
                                 <Signout signOutUser={this.signOutUser} />
                             } />
-                            <Route path='/' render={() =>
+                            <Route path='*' render={() =>
                                 <NotFoundPage />
                             } />
                         </Switch>
