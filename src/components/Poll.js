@@ -52,7 +52,7 @@ class Poll extends Component {
 
     showDeleteButton () {
         return (
-            this.props.userInfo.isLoggedIn && 
+            this.props.userInfo.isLoggedIn &&
             <div>
                 <button onClick={this.handleDelete}>Delete this poll</button>
                 {this.state.redirect && <Redirect to='/polls'/>}
@@ -63,14 +63,14 @@ class Poll extends Component {
     render () {
         return (
             <div className='Poll'>
-                { (this.state.poll && this.state.poll.options) ?
+                { (this.state.poll && this.state.poll.options) &&
                     <div>
                         <p>Poll: {this.state.poll.title}</p>
                         <VotingForm  options={this.state.poll.options} submitVote={this.submitVote} />
                         <Chart options={this.state.poll.options} />
                         {this.showDeleteButton()}
-                    </div>
-                    : <NotFoundPage />}
+                    </div>}
+                    {(this.state.poll && this.state.poll.error) && <NotFoundPage />}
             </div>
         )
     }
