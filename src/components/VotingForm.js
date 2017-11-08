@@ -31,7 +31,7 @@ class VotingForm extends Component {
             })
         }
     }
-    
+
     handleSubmit(event) {
         let vote
         if (this.state.customOption)
@@ -54,7 +54,7 @@ class VotingForm extends Component {
                     })}
                     <option id={'customOption'} value={'Custom option...'}>Custom option...</option>
                 </select>
-                {this.state.customOption && 
+                {this.state.customOption &&
                     <label>
                         Custom option:
                         <input type="text" value={this.state.inputValue} onChange={this.handleChange} />
