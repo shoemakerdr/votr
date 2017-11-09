@@ -32,13 +32,19 @@ const Nav = props => {
     const { isLoggedIn, userId, username } = props.userInfo
     return (
         <div className='Nav' style={styles.navbar}>
-            <StyledNavLink exact to='/'>Home</StyledNavLink>
-            <StyledNavLink to='/polls'>Polls</StyledNavLink>
-            {isLoggedIn && <StyledNavLink to='/newpoll'>New Poll</StyledNavLink>}
-            {isLoggedIn && <StyledNavLink to={`/users/${userId}`}>{username}'s Polls</StyledNavLink>}
-            {isLoggedIn && <StyledNavLink to='/signout'>Sign Out</StyledNavLink>}
-            {isLoggedIn || <StyledNavLink to='/login'>Login</StyledNavLink>}
-            {isLoggedIn || <StyledNavLink to='/register' >Sign Up</StyledNavLink>}
+            <div>
+                <StyledNavLink exact to='/'>Home</StyledNavLink>
+                <StyledNavLink to='/polls'>Polls</StyledNavLink>
+            </div>
+            {isLoggedIn && <div>
+                <StyledNavLink to='/newpoll'>Create Poll</StyledNavLink>
+                <StyledNavLink to={`/users/${userId}`}>Welcome {username}!</StyledNavLink>
+                <StyledNavLink to='/signout'>Sign Out</StyledNavLink>
+            </div>}
+            {!isLoggedIn && <div>
+                <StyledNavLink to='/login'>Login</StyledNavLink>
+                <StyledNavLink to='/register' >Sign Up</StyledNavLink>
+            </div>}
         </div>
     )
 }
