@@ -16,26 +16,20 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 class App extends Component {
     constructor () {
         super()
-        this.api = 'http://localhost:8000/api'
         this.logInUser = this.logInUser.bind(this)
         this.signOutUser = this.signOutUser.bind(this)
-        this.state = {
+        this.defaultState = {
             userInfo: {
                 isLoggedIn: true,
                 userId: 1,
                 username: 'derek'
             }
         }
+        this.state = this.defaultState
     }
 
     logInUser () {
-        this.setState({
-            userInfo: {
-                isLoggedIn: true,
-                userId: 1,
-                username: 'derek'
-            }
-        })
+        this.setState(this.defaultState)
     }
 
     signOutUser () {
@@ -57,45 +51,42 @@ class App extends Component {
                         <Switch>
                             <Route exact path='/' component={HomePage} />
                             <Route exact path='/polls' render={props => (
-                                <PollList {...props} api={this.api} />
-                            )} />
+                                <PollList {...props} />
+                            )}>
+                                <Route path='/:poll_id' render={props => (
+                                        <Poll
+                                            {...props}
+                                            userInfo={this.state.userInfo}
+                                        />
+                                )} />
+                            </Route>
                             <Route path='/newpoll' render={props => (
                                 <NewPoll
                                     {...props}
-                                    api={this.api}
-                                    userInfo={this.state.userInfo}
-                                />
-                            )} />
-                            <Route path='/polls/:poll_id' render={props => (
-                                <Poll
-                                    {...props}
-                                    api={this.api}
                                     userInfo={this.state.userInfo}
                                 />
                             )} />
                             <Route path='/users/:user_id' render={props => (
                                 <UserPollList
                                     {...props}
-                                    api={this.api}
                                     userInfo={this.state.userInfo}
                                 />
                             )} />
                             <Route path='/register' render={props => (
-                                <Register {...props} api={this.api} />
+                                <Register {...props} />
                             )} />
                             <Route path='/login' render={props => (
                                 <Login
                                     {...props}
-                                    api={this.api}
                                     logInUser={this.logInUser}
                                 />
                             )} />
-                            <Route path='/signout' render={() =>
-                                <Signout signOutUser={this.signOutUser} />
-                            } />
-                            <Route path='*' render={() =>
+                            <Route path='/signout' render={() => (
+                                <Signout signOutUser={this.signOutUser}/>
+                            )} />
+                            <Route path='*' render={() => (
                                 <NotFoundPage />
-                            } />
+                            )} />
                         </Switch>
                         <Footer />
                     </div>
