@@ -8,15 +8,14 @@ class NewPoll extends Component {
         this.addOption = this.addOption.bind(this)
         this.changeOption = this.changeOption.bind(this)
         this.defaultState = {
-            numberOfOptions: 2,
-            inputValue: '',
+            title: '',
             options: ['','']
         }
         this.state = this.defaultState
     }
 
     handleChange (event) {
-        this.setState({inputValue: event.target.value})
+        this.setState({title: event.target.value})
     }
 
     handleSubmit (event) {
@@ -29,9 +28,10 @@ class NewPoll extends Component {
         event.preventDefault()
         const newOptions = this.state.options.map(x => x)
         newOptions.push('')
-        this.setState({
-            numberOfOptions: this.state.numberOfOptions++,
-            options: newOptions
+        this.setState(prevState => {
+            return {
+                options: newOptions
+            }
         })
     }
 
@@ -46,7 +46,7 @@ class NewPoll extends Component {
             <form className='NewPoll' onSubmit={this.handleSubmit}>
                 <label>
                     Title:
-                    <input type="text" value={this.state.inputValue} onChange={this.handleChange} />
+                    <input type="text" value={this.state.title} onChange={this.handleChange} />
                 </label>
                 <label>
                     Options:
@@ -55,7 +55,7 @@ class NewPoll extends Component {
                             <input type="text" key={i} name={`${i}`} value={this.state.options[i]} onChange={this.changeOption} />
                         )
                     })}
-                    <button onClick={this.addOption}>Add option</button>
+                    <button type='button' onClick={this.addOption}>Add option</button>
                 </label>
                 <input type="submit" value="Submit" />
             </form>
