@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import Chart from './Chart'
 import VotingForm from './VotingForm'
 import NotFoundPage from './NotFoundPage'
+import votrApi from '../votrApi'
 
 class Poll extends Component {
     constructor (props) {
@@ -12,6 +13,7 @@ class Poll extends Component {
         this.handleDelete = this.handleDelete.bind(this)
         this.deletePoll = this.deletePoll.bind(this)
         this.showDeleteButton = this.showDeleteButton.bind(this)
+        this.pollId = this.props.match.params.poll_id
         this.state = {
             poll: null
         }
@@ -22,26 +24,17 @@ class Poll extends Component {
     }
 
     fetchPoll () {
-        fetch(`${this.props.api}/polls/${this.props.match.params.poll_id}`)
-            .then(data => data.json())
+        votrApi.getPoll(this.pollId)
             .then(poll => this.setState({poll: poll}))
     }
 
     submitVote (vote) {
-        const params = Object.keys(vote).map(key => {
-            return encodeURIComponent(key) + '=' + encodeURIComponent(vote[key])
-          }).join('')
-        const options = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: params
-        }
-        fetch(`${this.props.api}/polls/${this.props.match.params.poll_id}/vote`, options)
+        votrApi.submitVote(this.pollId, vote)
             .then(() => this.fetchPoll())
     }
 
     deletePoll () {
-        fetch(`${this.props.api}/polls/${this.props.match.params.poll_id}`, {method:'DELETE'})
+        votrApi.deletePoll(this.pollId)
             .then(() => this.setState({redirect: true}))
     }
 
@@ -52,7 +45,7 @@ class Poll extends Component {
 
     showDeleteButton () {
         return (
-            this.props.userInfo.isLoggedIn &&
+            this.props.userinfo.userId == this.state.poll.authorId &&
             <div>
                 <button onClick={this.handleDelete}>Delete this poll</button>
                 {this.state.redirect && <Redirect to='/polls'/>}
