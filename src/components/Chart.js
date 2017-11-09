@@ -1,7 +1,5 @@
 import React from 'react'
 
-// TODO: Add something to show 'No votes yet' instead of chart
-
 const Chart = props =>
     <div className='Chart'>
         { props.options.length && props.options.map(option => {
@@ -9,6 +7,7 @@ const Chart = props =>
                 <p key={option.id}>{option.name}: {option.votes} votes</p>
             )
         })}
+        { !props.options.length && 'No votes yet'}
     </div>
 
 export default Chart
