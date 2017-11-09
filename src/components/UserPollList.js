@@ -1,10 +1,15 @@
 import PollList from './PollList'
-// import './UserPollList.css'
+import votrApi from '../votrApi'
+
 
 class UserPollList extends PollList {
+    constructor () {
+        super()
+        this.userId = this.props.match.params.user_id
+        this.fetchPolls = this.fetchPolls.bind(this)
+    }
     fetchPolls () {
-        return fetch(`${this.props.api}/users/${this.props.match.params.user_id}/polls`)
-            .then(data => data.json())
+        return votrApi.getAllPollsByUser(this.userId)
     }
 }
 

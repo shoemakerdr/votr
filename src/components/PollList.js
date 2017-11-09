@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-// import './PollList.css'
+import votrApi from '../votrApi'
 
 const initialState = {
             polls: []
@@ -17,8 +17,7 @@ class PollList extends Component {
     }
 
     fetchPolls () {
-        return fetch(`${this.props.api}/polls`)
-            .then(data => data.json())
+        return votrApi.getAllPolls()
     }
 
     render () {
