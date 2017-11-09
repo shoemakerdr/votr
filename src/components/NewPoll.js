@@ -25,7 +25,7 @@ class NewPoll extends Component {
         this.setState(this.defaultState)
         event.preventDefault()
     }
-    
+
     hasNoEmptyOptions () {
         const { options } = this.state
         for (let option of options) {
@@ -71,12 +71,12 @@ class NewPoll extends Component {
                     Options:
                     { this.state.options.map((option, i) => {
                         return (
-                            <input 
+                            <input
                                 type="text"
                                 key={i}
                                 name={`${i}`}
                                 value={this.state.options[i]}
-                                onChange={this.changeOption} 
+                                onChange={this.changeOption}
                             />
                         )
                     })}
