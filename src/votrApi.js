@@ -10,6 +10,16 @@ class VotrApi {
           }).join('&')
     }
 
+    getAllPolls () {
+        return fetch(`${this.host}/polls`)
+            .then(data => data.json())
+    }
+
+    getAllPollsByUser (userId) {
+        return fetch(`${this.host}/users/${userId}/polls`)
+            .then(data => data.json())
+    }
+
     getPoll (pollId) {
         return fetch(`${this.host}/polls/${pollId}`)
             .then(data => data.json())
