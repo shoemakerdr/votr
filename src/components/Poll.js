@@ -36,7 +36,7 @@ class Poll extends Component {
 
     deletePoll () {
         votrApi.deletePoll(this.pollId)
-            .then(() => this.setState({redirect: true}))
+            .then(() => this.setState({shouldRedirect: true}))
     }
 
     handleDelete () {
@@ -49,7 +49,7 @@ class Poll extends Component {
             this.props.userInfo.userId === this.state.poll.authorId &&
             <div>
                 <button onClick={this.handleDelete}>Delete this poll</button>
-                {this.state.redirect && <Redirect to='/polls'/>}
+                {this.state.shouldRedirect && <Redirect to='/polls'/>}
             </div>
         )
     }
