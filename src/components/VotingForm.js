@@ -1,4 +1,20 @@
 import React, { Component } from 'react'
+import votrCheckmark from '../images/votr-checkmark.png'
+
+const styles = {
+    select: {
+        margin: '50%',
+        background: 'transparent',
+        width: '180px',
+        padding: '5px 30px 5px 5px',
+        fontSize: '16px',
+        border: '1px solid #989de0',
+        height: '34px',
+        appearance: 'none',
+        outline: 'none',
+        background: `url(${votrCheckmark}) 96% / 13% no-repeat #eee`,
+    }
+}
 
 class VotingForm extends Component {
     constructor (props) {
@@ -46,7 +62,7 @@ class VotingForm extends Component {
         return (
             <form className='VotingForm' onSubmit={this.handleSubmit}>
                 Vote:
-                <select value={this.state.selectValue} onChange={this.handleChange}>
+                <select value={this.state.selectValue} onChange={this.handleChange} style={styles.select}>
                     {this.props.options.map(option => {
                         return (
                             <option key={option.id} id={option.id} value={option.name}>{option.name}</option>
@@ -59,7 +75,7 @@ class VotingForm extends Component {
                         Custom option:
                         <input type="text" value={this.state.inputValue} onChange={this.handleChange} />
                     </label>}
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Vote" />
             </form>
         )
     }
