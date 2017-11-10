@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import votrLogoNav from 'votr-logo-nav.png'
+import votrLogoNav from '../images/votr-logo-nav.png'
 
 const styles = {
     navbar: {
