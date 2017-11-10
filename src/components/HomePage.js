@@ -1,10 +1,10 @@
 import React from 'react'
-import votrLogo from 'votr-logo.png'
+import votrLogo from '../images/votr-logo.png'
 // import './HomePage.css'
 
 const styles = {
     logo: {
-        height: '200px',
+        height: '400px',
         marginLeft: 'auto',
         marginRight: 'auto'
     }
