@@ -3,9 +3,9 @@ import votrApi from '../votrApi'
 
 
 class UserPollList extends PollList {
-    constructor () {
+    constructor (props) {
         super()
-        this.userId = this.props.match.params.user_id
+        this.userId = props.userInfo.userId
         this.fetchPolls = this.fetchPolls.bind(this)
     }
     fetchPolls () {

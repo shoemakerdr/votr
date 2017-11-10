@@ -52,14 +52,13 @@ class App extends Component {
                             <Route exact path='/' component={HomePage} />
                             <Route exact path='/polls' render={props => (
                                 <PollList {...props} />
-                            )}>
-                                <Route path='/:poll_id' render={props => (
-                                        <Poll
-                                            {...props}
-                                            userInfo={this.state.userInfo}
-                                        />
-                                )} />
-                            </Route>
+                            )}/>
+                            <Route path='/polls/:poll_id' render={props => (
+                                    <Poll
+                                        {...props}
+                                        userInfo={this.state.userInfo}
+                                    />
+                            )} />
                             <Route path='/newpoll' render={props => (
                                 <NewPoll
                                     {...props}

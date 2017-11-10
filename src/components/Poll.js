@@ -13,10 +13,11 @@ class Poll extends Component {
         this.handleDelete = this.handleDelete.bind(this)
         this.deletePoll = this.deletePoll.bind(this)
         this.showDeleteButton = this.showDeleteButton.bind(this)
-        this.pollId = this.props.match.params.poll_id
+        this.pollId = props.match.params.poll_id
         this.state = {
             poll: null
         }
+        console.log(this)
     }
 
     componentDidMount () {
@@ -45,7 +46,7 @@ class Poll extends Component {
 
     showDeleteButton () {
         return (
-            this.props.userinfo.userId == this.state.poll.authorId &&
+            this.props.userInfo.userId === this.state.poll.authorId &&
             <div>
                 <button onClick={this.handleDelete}>Delete this poll</button>
                 {this.state.redirect && <Redirect to='/polls'/>}

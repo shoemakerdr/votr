@@ -37,11 +37,11 @@ class NewPoll extends Component {
 
     addOption (event) {
         event.preventDefault()
-        if (this.noEmptyOptions()) {
+        if (this.hasNoEmptyOptions()) {
             const newOptions = this.state.options.map(x => x)
             newOptions.push('')
             this.setState({
-                canAddOption: this.hasNoEmptyOptions(),
+                canAddOption:false,
                 options: newOptions
             })
         }
@@ -82,7 +82,7 @@ class NewPoll extends Component {
                     })}
                     <button
                         type='button'
-                        disabled={this.state.canAddOption}
+                        disabled={!this.state.canAddOption}
                         onClick={this.addOption}
                     >
                         Add option
