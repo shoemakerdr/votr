@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import votrApi from '../votrApi'
 
 class NewPoll extends Component {
     constructor (props) {
@@ -8,10 +10,12 @@ class NewPoll extends Component {
         this.addOption = this.addOption.bind(this)
         this.changeOption = this.changeOption.bind(this)
         this.hasNoEmptyOptions = this.hasNoEmptyOptions.bind(this)
+        this.redirectToPoll = this.redirectToPoll.bind(this)
         this.defaultState = {
             title: '',
             options: ['',''],
-            canAddOption: false
+            canAddOption: false,
+            shouldRedirect: false
         }
         this.state = this.defaultState
     }
@@ -21,8 +25,16 @@ class NewPoll extends Component {
     }
 
     handleSubmit (event) {
-        console.log(this.state)
-        this.setState(this.defaultState)
+        const params = {
+            title: this.state.title,
+            userId: this.props.userInfo.userId,
+            options: this.state.options
+        }
+        votrApi.newPoll(params)
+            .then(result => this.setState({
+                shouldRedirect: true,
+                newPollId: result.poll_id
+            }))
         event.preventDefault()
     }
 
@@ -54,6 +66,14 @@ class NewPoll extends Component {
             canAddOption: this.hasNoEmptyOptions(),
             options: newOptions
         })
+    }
+
+    redirectToPoll () {
+        return (
+            <div>
+                {this.state.shouldRedirect && <Redirect to={`/polls/${this.state.newPollId}`} />}
+            </div>
+        )
     }
 
     render () {
@@ -89,6 +109,7 @@ class NewPoll extends Component {
                     </button>
                 </label>
                 <input type="submit" value="Submit" />
+                {this.redirectToPoll()}
             </form>
         )
     }
