@@ -24,17 +24,17 @@ class PollList extends Component {
         const { polls } = this.state
         return (
             <div className='AllPolls'>
-            {this.state.polls.length ? 
-                <ul>
+            {this.state.polls.length ?
+                <div>
                     {polls.map(poll => {
                         const {title, poll_id} = poll
                         return (
-                            <li key={poll_id}>
+                            <div key={poll_id}>
                                 <Link to={`/polls/${poll_id}`}>{title}</Link>
-                            </li>
+                            </div>
                         )
                     })}
-                </ul>
+                </div>
                 : 'No polls to show'}
             </div>
         )
