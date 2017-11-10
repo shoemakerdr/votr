@@ -6,7 +6,9 @@ const styles = {
     navbar: {
         padding: '24px',
         marginBottom: '16px',
-        backgroundColor: '#050D58'
+        backgroundColor: '#050D58',
+        display: 'flex',
+        justifyContent: 'space-between',
     },
     link: {
         marginRight: '12px',
@@ -36,17 +38,17 @@ const Nav = props => {
     const { isLoggedIn, userId, username } = props.userInfo
     return (
         <div className='Nav' style={styles.navbar}>
-            <div>
+            <div className='Nav--home-polls'>
                 <img src={votrLogoNav} alt='votr' style={styles.logo} />
                 <StyledNavLink exact to='/'>Home</StyledNavLink>
                 <StyledNavLink to='/polls'>Polls</StyledNavLink>
             </div>
-            {isLoggedIn && <div>
+            {isLoggedIn && <div className='Nav--authenticated'>
                 <StyledNavLink to='/newpoll'>Create Poll</StyledNavLink>
                 <StyledNavLink to={`/users/${userId}`}>Welcome {username}!</StyledNavLink>
                 <StyledNavLink to='/signout'>Sign Out</StyledNavLink>
             </div>}
-            {!isLoggedIn && <div>
+            {!isLoggedIn && <div className='Nav--unauthenticated'>
                 <StyledNavLink to='/login'>Login</StyledNavLink>
                 <StyledNavLink to='/register' >Sign Up</StyledNavLink>
             </div>}
@@ -55,3 +57,4 @@ const Nav = props => {
 }
 
 export default Nav
+
