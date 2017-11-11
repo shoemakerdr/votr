@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import votrApi from '../votrApi'
+import './styles/NewPoll.css'
 
 class NewPoll extends Component {
     constructor (props) {
@@ -11,10 +12,12 @@ class NewPoll extends Component {
         this.changeOption = this.changeOption.bind(this)
         this.hasNoEmptyOptions = this.hasNoEmptyOptions.bind(this)
         this.redirectToPoll = this.redirectToPoll.bind(this)
+        this.titleNotEmpty = this.titleNotEmpty.bind(this)
+        this.noDuplicateOptions = this.noDuplicateOptions.bind(this)
+        this.canSubmitPoll = this.canSubmitPoll.bind(this)
         this.defaultState = {
             title: '',
             options: ['',''],
-            canAddOption: false,
             shouldRedirect: false
         }
         this.state = this.defaultState
@@ -41,7 +44,7 @@ class NewPoll extends Component {
     hasNoEmptyOptions () {
         const { options } = this.state
         for (let option of options) {
-            if (option.length === 0)
+            if (option === '')
                 return false
         }
         return true
@@ -53,7 +56,6 @@ class NewPoll extends Component {
             const newOptions = this.state.options.map(x => x)
             newOptions.push('')
             this.setState({
-                canAddOption:false,
                 options: newOptions
             })
         }
@@ -63,9 +65,27 @@ class NewPoll extends Component {
         const index = event.target.name
         const newOptions = this.state.options.map((x,i) => String(i) === index ? event.target.value : x)
         this.setState({
-            canAddOption: this.hasNoEmptyOptions(),
             options: newOptions
         })
+    }
+
+    titleNotEmpty () {
+        return this.state.title !== ''
+    }
+
+    noDuplicateOptions () {
+        return true
+    }
+
+    atLeastTwoOptions () {
+        return this.state.options[0] !== ''
+            && this.state.options[1] !== ''
+    }
+
+    canSubmitPoll () {
+        return this.atLeastTwoOptions()
+            && this.titleNotEmpty()
+            && this.noDuplicateOptions()
     }
 
     redirectToPoll () {
@@ -79,36 +99,40 @@ class NewPoll extends Component {
     render () {
         return (
             <form className='NewPoll' onSubmit={this.handleSubmit}>
-                <label>
-                    Title:
-                    <input
-                        type="text"
-                        value={this.state.title}
-                        onChange={this.handleChange}
-                    />
-                </label>
-                <label>
-                    Options:
-                    { this.state.options.map((option, i) => {
-                        return (
-                            <input
-                                type="text"
-                                key={i}
-                                name={`${i}`}
-                                value={this.state.options[i]}
-                                onChange={this.changeOption}
-                            />
-                        )
-                    })}
-                    <button
-                        type='button'
-                        disabled={!this.state.canAddOption}
-                        onClick={this.addOption}
-                    >
-                        Add option
-                    </button>
-                </label>
-                <input type="submit" value="Submit" />
+                <h1>Create A New Poll</h1>
+                <input
+                    className='NewPoll--input'
+                    placeholder='Title'
+                    type="text"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                />
+                { this.state.options.map((option, i) => {
+                    return (
+                        <input
+                            className='NewPoll--input'
+                            placeholder='Option'
+                            type="text"
+                            key={i}
+                            name={`${i}`}
+                            value={this.state.options[i]}
+                            onChange={this.changeOption}
+                        />
+                    )
+                })}
+                <button
+                    className={this.hasNoEmptyOptions() ? 'NewPoll--option-button' : 'NewPoll--disabled-option-button'}
+                    type='button'
+                    disabled={!this.hasNoEmptyOptions()}
+                    onClick={this.addOption}
+                >
+                    Add Option
+                </button>
+                <input
+                    className={this.canSubmitPoll() ? 'NewPoll--button' : 'NewPoll--disabled-button'}
+                    type="submit"
+                    disabled={!this.canSubmitPoll()}
+                    value="Submit" />
                 {this.redirectToPoll()}
             </form>
         )
