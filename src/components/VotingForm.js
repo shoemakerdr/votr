@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
 import votrCheckmark from '../images/votr-checkmark.png'
+import './styles/VotingForm.css'
 
 const styles = {
     select: {
-        margin: '50%',
-        background: 'transparent',
-        width: '180px',
-        padding: '5px 30px 5px 5px',
-        fontSize: '16px',
-        border: '1px solid #989de0',
-        height: '34px',
-        appearance: 'none',
-        outline: 'none',
         background: `url(${votrCheckmark}) 96% / 13% no-repeat #eee`,
     }
 }
@@ -19,7 +11,8 @@ const styles = {
 class VotingForm extends Component {
     constructor (props) {
         super()
-        this.handleChange = this.handleChange.bind(this)
+        this.changeSelect = this.changeSelect.bind(this)
+        this.changeCustomOption = this.changeCustomOption.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.defaultState = {
             selectValue: props.options[0].name,
@@ -30,25 +23,25 @@ class VotingForm extends Component {
         this.state = this.defaultState
     }
 
-    handleChange(event) {
-        if (this.state.customOption) {
+    changeCustomOption (event) {
+        if (this.state.customOption)
             this.setState({inputValue: event.target.value})
-        }
-        else {
-            if (event.target.selectedOptions[0].id === 'customOption')
-                this.setState({
-                    selectValue: event.target.value,
-                    customOption: true
-                })
-            else this.setState({
-                selectValue: event.target.value,
-                selectId: event.target.selectedOptions[0].id,
-                customOption: false
-            })
-        }
     }
 
-    handleSubmit(event) {
+    changeSelect (event) {
+         if (event.target.selectedOptions[0].id === 'customOption')
+            this.setState({
+                selectValue: event.target.value,
+                customOption: true
+            })
+        else this.setState({
+            selectValue: event.target.value,
+            selectId: event.target.selectedOptions[0].id,
+            customOption: false
+        })
+    }
+
+    handleSubmit (event) {
         let vote
         if (this.state.customOption)
             vote = {option: this.state.inputValue}
@@ -61,21 +54,19 @@ class VotingForm extends Component {
     render () {
         return (
             <form className='VotingForm' onSubmit={this.handleSubmit}>
-                Vote:
-                <select value={this.state.selectValue} onChange={this.handleChange} style={styles.select}>
+                <select value={this.state.selectValue} onChange={this.changeSelect} style={styles.select}>
                     {this.props.options.map(option => {
                         return (
                             <option key={option.id} id={option.id} value={option.name}>{option.name}</option>
                         )
                     })}
-                    <option id={'customOption'} value={'Custom option...'}>Custom option...</option>
+                    {this.props.userInfo.username && <option id={'customOption'} value={'Custom option...'}>Custom option...</option>}
                 </select>
                 {this.state.customOption &&
                     <label>
-                        Custom option:
-                        <input type="text" value={this.state.inputValue} onChange={this.handleChange} />
+                        <input className='VotingForm--custom-option-input' placeholder='Your custom option' type="text" value={this.state.inputValue} onChange={this.changeCustomOption} />
                     </label>}
-                <input type="submit" value="Vote" />
+                <input className='VotingForm--button' type="submit" value="Vote" />
             </form>
         )
     }
