@@ -21,3 +21,15 @@ input {
     -moz-osx-font-smoothing: inherit;
     -webkit-appearance: none;
 }
+
+select {
+    width: 180px;
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 5px 30px 5px 5px;
+    font-size: 16px;
+    border: 1px solid #989de0;
+    height: 36px;
+    appearance: none;
+    outline: none;
+}
