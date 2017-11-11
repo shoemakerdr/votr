@@ -27,7 +27,7 @@ class VotrApi {
 
     newPoll (params) {
         // params object has title, userId, and options array
-        params.options = params.options.join('\n')
+        params.options = params.options.filter(option => option !== '').join('\n')
         const options = {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
