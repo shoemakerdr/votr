@@ -1,0 +1,45 @@
+
+select {
+    width: 180px;
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 5px 30px 5px 5px;
+    font-size: 16px;
+    border: 1px solid #989de0;
+    height: 36px;
+    appearance: none;
+    outline: none;
+}
+
+.VotingForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.VotingForm--custom-option-input {
+    height: 34px;
+    border: 1px solid #989de0;
+    border-radius: 5px;
+    background: #eee;
+    padding-left: 5px;
+}
+
+.VotingForm--button {
+    margin-left: 8px;
+    height: 36px;
+    border-radius: 5px;
+    background-color: #050D58;
+    padding: 0 16px;
+    color: white;
+    transition: background-color .5s;
+}
+
+.VotingForm--button:hover {
+    background-color: #fc3c40;
+}
+
+.VotingForm--button:active {
+    background-color: #df0004;
+}
