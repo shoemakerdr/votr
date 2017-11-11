@@ -17,7 +17,6 @@ class Poll extends Component {
         this.state = {
             poll: null
         }
-        console.log(this)
     }
 
     componentDidMount () {
@@ -59,8 +58,8 @@ class Poll extends Component {
             <div className='Poll'>
                 { (this.state.poll && this.state.poll.options) &&
                     <div>
-                        <p>Poll: {this.state.poll.title}</p>
-                        <VotingForm  options={this.state.poll.options} submitVote={this.submitVote} />
+                        <h1>{this.state.poll.title}</h1>
+                        <VotingForm  userInfo={this.props.userInfo} options={this.state.poll.options} submitVote={this.submitVote} />
                         <Chart options={this.state.poll.options} />
                         {this.showDeleteButton()}
                     </div>}
