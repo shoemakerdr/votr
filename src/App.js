@@ -8,7 +8,7 @@ import Poll from './components/Poll'
 import Register from './components/Register'
 import Login from './components/Login'
 import NewPoll from './components/NewPoll'
-import UserPollList from './components/UserPollList'
+import UserPage from './components/UserPage'
 import Signout from './components/Signout'
 import NotFoundPage from './components/NotFoundPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -21,7 +21,6 @@ class App extends Component {
         this.defaultState = {
             userInfo: {
                 isLoggedIn: true,
-                userId: 1,
                 username: 'derek'
             }
         }
@@ -36,7 +35,6 @@ class App extends Component {
         this.setState({
             userInfo: {
                 isLoggedIn: false,
-                userId: null,
                 username: ''
             }
         })
@@ -66,7 +64,7 @@ class App extends Component {
                                 />
                             )} />
                             <Route path='/users/:user_id' render={props => (
-                                <UserPollList
+                                <UserPage
                                     {...props}
                                     userInfo={this.state.userInfo}
                                 />
