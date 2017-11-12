@@ -30,7 +30,7 @@ class NewPoll extends Component {
     handleSubmit (event) {
         const params = {
             title: this.state.title,
-            userId: this.props.userInfo.userId,
+            username: this.props.userInfo.username,
             options: this.state.options
         }
         votrApi.newPoll(params)
