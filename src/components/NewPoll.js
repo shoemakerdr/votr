@@ -121,7 +121,7 @@ class NewPoll extends Component {
                     )
                 })}
                 <button
-                    className={this.hasNoEmptyOptions() ? 'NewPoll--option-button' : 'NewPoll--disabled-option-button'}
+                    className={this.hasNoEmptyOptions() ? 'button' : 'disabled-button'}
                     type='button'
                     disabled={!this.hasNoEmptyOptions()}
                     onClick={this.addOption}
@@ -129,7 +129,7 @@ class NewPoll extends Component {
                     Add Option
                 </button>
                 <input
-                    className={this.canSubmitPoll() ? 'NewPoll--button' : 'NewPoll--disabled-button'}
+                    className={this.canSubmitPoll() ? 'button' : 'disabled-button'}
                     type="submit"
                     disabled={!this.canSubmitPoll()}
                     value="Submit" />
