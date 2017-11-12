@@ -42,7 +42,7 @@ const StyledNavLink = props =>
     </NavLink>
 
 const Nav = props => {
-    const { isLoggedIn, userId, username } = props.userInfo
+    const { isLoggedIn, username } = props.userInfo
     return (
         <div className='Nav' style={styles.navbar}>
             <Link to='/'><img src={votrLogoNav} alt='votr' style={styles.logo} /></Link>
@@ -51,7 +51,7 @@ const Nav = props => {
                 <StyledNavLink to='/polls'>Polls</StyledNavLink>
                 {isLoggedIn && <div className='Nav--authenticated'>
                     <StyledNavLink to='/newpoll'>Create Poll</StyledNavLink>
-                    <StyledNavLink to={`/users/${userId}`}>Welcome {username}!</StyledNavLink>
+                    <StyledNavLink to={`/users/${username}`}>Dashboard</StyledNavLink>
                     <StyledNavLink to='/signout'>Sign Out</StyledNavLink>
                 </div>}
                 {!isLoggedIn && <div className='Nav--unauthenticated'>
