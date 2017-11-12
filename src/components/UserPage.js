@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import votrApi from '../votrApi'
+import './styles/UserPage.css'
 
 class UserPage extends Component {
     constructor (props) {
@@ -12,29 +13,23 @@ class UserPage extends Component {
         }
     }
     fetchPolls () {
-        return votrApi.getAllPollsByUser(this.username)
+        votrApi.getAllPollsByUser(this.username)
+            .then(polls => this.setState({polls: polls}))
     }
 
     componentDidMount () {
-        this.fetchPolls().then(polls => this.setState({polls: polls}))
+        this.fetchPolls()
     }
 
-    handleDelete () {
-        if (window.confirm('Are you sure you want to delete this poll?'))
-            this.deletePoll()
+    handleDelete (pollId) {
+        return (event) => {
+            if (window.confirm('Are you sure you want to delete this poll?'))
+                this.deletePoll(pollId)
+        }
     }
 
-    showDeleteButton () {
-        return (
-            this.props.userInfo.username === this.state.poll.author &&
-            <div>
-                <button onClick={this.handleDelete}>Delete this poll</button>
-            </div>
-        )
-    }
-
-    deletePoll () {
-        votrApi.deletePoll(this.pollId)
+    deletePoll (pollId) {
+        votrApi.deletePoll(pollId)
             .then(this.fetchPolls)
     }
 
@@ -50,6 +45,7 @@ class UserPage extends Component {
                         return (
                             <div key={poll_id}>
                                 <Link to={`/polls/${poll_id}`}>{title}</Link>
+                                <button className='delete-button' onClick={this.handleDelete(poll_id)}>Delete</button>
                             </div>
                         )
                     })}
