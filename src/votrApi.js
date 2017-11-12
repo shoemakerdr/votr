@@ -15,8 +15,8 @@ class VotrApi {
             .then(data => data.json())
     }
 
-    getAllPollsByUser (userId) {
-        return fetch(`${this.host}/users/${userId}/polls`)
+    getAllPollsByUser (username) {
+        return fetch(`${this.host}/users/${username}/polls`)
             .then(data => data.json())
     }
 
@@ -26,7 +26,7 @@ class VotrApi {
     }
 
     newPoll (params) {
-        // params object has title, userId, and options array
+        // params object has title, username, and options array
         params.options = params.options.filter(option => option !== '').join('\n')
         const options = {
             method: 'POST',
