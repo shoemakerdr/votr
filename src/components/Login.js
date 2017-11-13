@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './styles/Login.css'
+import votrApi from '../votrApi'
 
 class Login extends Component {
     constructor (props) {
@@ -16,7 +17,7 @@ class Login extends Component {
     }
 
     componentDidMount () {
-        this.props.logInUser()
+        // this.props.loginUser()
     }
 
     changeUsername (event) {

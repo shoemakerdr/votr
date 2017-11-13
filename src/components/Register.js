@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './styles/Register.css'
+import votrApi from '../votrApi'
 
 class Register extends Component {
     constructor (props) {
@@ -18,7 +19,7 @@ class Register extends Component {
     }
 
     componentDidMount () {
-        // this.props.logInUser()
+        // this.props.loginUser()
     }
 
     changeUsername (event) {
