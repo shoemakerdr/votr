@@ -1,3 +1,4 @@
+import { getToken } from './authHelpers'
 
 class VotrApi {
     constructor (host) {
@@ -10,13 +11,40 @@ class VotrApi {
           }).join('&')
     }
 
+    login (params) {
+        params.options = params.options.join('\n')
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: this.encodeParams(params)
+        }
+        return fetch(`${this.host}/auth/login`, options)
+            .then(data => data.json())
+    }
+
+    register (params) {
+        params.options = params.options.join('\n')
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: this.encodeParams(params)
+        }
+        return fetch(`${this.host}/auth/register`, options)
+            .then(data => data.json())
+    }
+
     getAllPolls () {
         return fetch(`${this.host}/polls`)
             .then(data => data.json())
     }
 
     getAllPollsByUser (username) {
-        return fetch(`${this.host}/users/${username}/polls`)
+        return fetch(`${this.host}/users/${username}/polls`, {
+            headers: {token: getToken()}})
             .then(data => data.json())
     }
 
@@ -30,7 +58,10 @@ class VotrApi {
         params.options = params.options.filter(option => option !== '').join('\n')
         const options = {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                token: getToken()
+            },
             body: this.encodeParams(params)
         }
         return fetch(`${this.host}/polls`, options)
@@ -49,7 +80,10 @@ class VotrApi {
     }
 
     deletePoll (pollId) {
-        return fetch(`${this.host}/polls/${pollId}`, {method:'DELETE'})
+        return fetch(`${this.host}/polls/${pollId}`, {
+            method:'DELETE',
+            headers: {token: getToken()}
+        })
             .then(data => data.json())
     }
 }
