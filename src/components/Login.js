@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import './styles/Login.css'
 import votrApi from '../votrApi'
 
@@ -9,15 +10,19 @@ class Login extends Component {
         this.changePassword = this.changePassword.bind(this)
         this.handleLogin = this.handleLogin.bind(this)
         this.canLogin = this.canLogin.bind(this)
+        this.flashError = this.flashError.bind(this)
         this.defaultState = {
+            errorMessage: '',
+            shouldRedirect: false,
             usernameInput: '',
             passwordInput: ''
         }
         this.state = this.defaultState
     }
 
-    componentDidMount () {
-        // this.props.loginUser()
+    flashError (err) {
+        this.setState({errorMessage: err})
+        setTimeout(() => this.setState({errorMessage: ''}), 2000)
     }
 
     changeUsername (event) {
@@ -29,9 +34,18 @@ class Login extends Component {
     }
 
     handleLogin (event) {
+        const loginInfo = {
+            username: this.state.usernameInput,
+            password: this.state.passwordInput
+        }
         event.preventDefault()
-        console.log(this.state)
-        this.setState(this.defaultState)
+        votrApi.login(loginInfo)
+            .then(data => {
+                if (data.error)
+                    return this.flashError(data.error)
+                this.props.loginToApp(data)
+                this.setState({shouldRedirect: true})
+            })
     }
 
     canLogin () {
@@ -62,6 +76,8 @@ class Login extends Component {
                     type="submit"
                     disabled={!this.canLogin()}
                     value="Login" />
+                {this.state.shouldRedirect && <Redirect to='/'/>}
+                <div className='error'>{this.state.errorMessage}</div>
             </form>
         )
     }
