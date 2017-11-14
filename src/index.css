@@ -67,3 +67,7 @@ select {
     font-family: 'Roboto';
     margin-bottom: 16px;
 }
+
+.error {
+    color: red;
+}
