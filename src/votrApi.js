@@ -12,7 +12,6 @@ class VotrApi {
     }
 
     login (params) {
-        params.options = params.options.join('\n')
         const options = {
             method: 'POST',
             headers: {
@@ -21,11 +20,14 @@ class VotrApi {
             body: this.encodeParams(params)
         }
         return fetch(`${this.host}/auth/login`, options)
-            .then(data => data.json())
+            .then(data => {
+                if (data.status === 401)
+                    return {error: 'Incorrect username/password'}
+                else return data.json()
+            })
     }
 
     register (params) {
-        params.options = params.options.join('\n')
         const options = {
             method: 'POST',
             headers: {
@@ -34,7 +36,11 @@ class VotrApi {
             body: this.encodeParams(params)
         }
         return fetch(`${this.host}/auth/register`, options)
-            .then(data => data.json())
+            .then(data => {
+                if (data.status === 401)
+                    return {error: 'There was an issue processing your registration. Try again later.'}
+                else return data.json()
+            })
     }
 
     getAllPolls () {
