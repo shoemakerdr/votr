@@ -13,15 +13,13 @@ import Signout from './components/Signout'
 import NotFoundPage from './components/NotFoundPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { isLoggedIn, getUsername, saveUserInfo, clearUserInfo } from './authHelpers'
-import votrApi from './votrApi'
 
 class App extends Component {
     constructor () {
         super()
-        this.loginUser = this.loginUser.bind(this)
+        this.loginToApp = this.loginToApp.bind(this)
         this.signOutUser = this.signOutUser.bind(this)
         this.checkUser = this.checkUser.bind(this)
-        this.registerNewUser = this.registerNewUser.bind(this)
         this.defaultState = {
             userInfo: {
                 isLoggedIn: isLoggedIn(),
@@ -38,14 +36,14 @@ class App extends Component {
             return this.defaultState
     }
 
-    registerNewUser () {
-        // votrApi.register(...)
-        // saveUserInfo -> from authHelpers
-    }
-
-    loginUser () {
-        // votrApi.login(...)
-        // saveUserInfo -> from authHelpers
+    loginToApp (info) {
+        saveUserInfo(info)
+        this.setState({
+            userInfo: {
+                isLoggedIn: true,
+                username: info.username
+            }
+        })
     }
 
     signOutUser () {
@@ -88,12 +86,15 @@ class App extends Component {
                                 />
                             )} />
                             <Route path='/register' render={props => (
-                                <Register {...props} />
+                                <Register
+                                    {...props}
+                                    loginToApp={this.loginToApp}
+                                />
                             )} />
                             <Route path='/login' render={props => (
                                 <Login
                                     {...props}
-                                    loginUser={this.loginUser}
+                                    loginToApp={this.loginToApp}
                                 />
                             )} />
                             <Route path='/signout' render={() => (
