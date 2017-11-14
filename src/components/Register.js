@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import './styles/Register.css'
 import votrApi from '../votrApi'
 
@@ -10,7 +11,9 @@ class Register extends Component {
         this.changeConfirmPassword = this.changeConfirmPassword.bind(this)
         this.handleRegister = this.handleRegister.bind(this)
         this.canRegister = this.canRegister.bind(this)
+        this.flashError = this.flashError.bind(this)
         this.defaultState = {
+            errorMessage: '',
             usernameInput: '',
             passwordInput: '',
             confirmPasswordInput: ''
@@ -18,8 +21,9 @@ class Register extends Component {
         this.state = this.defaultState
     }
 
-    componentDidMount () {
-        // this.props.loginUser()
+    flashError (err) {
+        this.setState({errorMessage: err})
+        setTimeout(() => this.setState({errorMessage: ''}), 2000)
     }
 
     changeUsername (event) {
@@ -35,12 +39,21 @@ class Register extends Component {
     }
 
     handleRegister (event) {
+        const loginInfo = {
+            username: this.state.usernameInput,
+            password: this.state.passwordInput
+        }
         event.preventDefault()
         if (this.state.passwordInput !== this.state.confirmPasswordInput) {
-            console.log('Passwords must match')
+            return this.flashError('Passwords must match')
         }
-        else console.log(this.state)
-        this.setState(this.defaultState)
+        votrApi.register(loginInfo)
+            .then(data => {
+                if (data.error)
+                    return this.flashError(data.error)
+                this.props.loginToApp(data)
+                this.setState({shouldRedirect: true})
+            })
     }
 
     canRegister () {
@@ -79,6 +92,8 @@ class Register extends Component {
                     type="submit"
                     disabled={!this.canRegister()}
                     value="Sign Up" />
+                <div className='error'>{this.state.errorMessage}</div>
+                {this.state.shouldRedirect && <Redirect to='/'/>}
             </form>
         )
     }
