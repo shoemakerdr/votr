@@ -14,6 +14,7 @@ class VotingForm extends Component {
         this.changeSelect = this.changeSelect.bind(this)
         this.changeCustomOption = this.changeCustomOption.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.canSubmitVote = this.canSubmitVote.bind(this)
         this.defaultState = {
             selectValue: props.options[0].name,
             selectId: props.options[0].id,
@@ -41,14 +42,31 @@ class VotingForm extends Component {
         })
     }
 
+    isNoDuplicateOption (name) {
+        const lower = name.toLowerCase()
+        return this.props.options.every(option => option.name.toLowerCase() !== lower)
+    }
+
+    getOptionId (name) {
+        const lower = name.toLowerCase()
+        return this.props.options.find(option => option.name.toLowerCase() === lower)
+    }
+
     handleSubmit (event) {
         let vote
-        if (this.state.customOption)
-            vote = {option: this.state.inputValue}
+        if (this.state.customOption) {
+            if (this.isNoDuplicateOption(this.state.inputValue))
+                vote = {option: this.state.inputValue}
+            else vote = {optionId: this.getOptionId(this.state.inputValue).id}
+        }
         else vote = {optionId: this.state.selectId}
         this.props.submitVote(vote)
         this.setState(this.defaultState)
         event.preventDefault()
+    }
+
+    canSubmitVote () {
+        return !this.state.customOption || this.state.inputValue !== ''
     }
 
     render () {
@@ -66,7 +84,7 @@ class VotingForm extends Component {
                     <label>
                         <input className='VotingForm--custom-option-input' placeholder='Your custom option' type="text" value={this.state.inputValue} onChange={this.changeCustomOption} />
                     </label>}
-                <input className='VotingForm--button' type="submit" value="Vote" />
+                <input disabled={!this.canSubmitVote()} className={this.canSubmitVote() ? 'button' : 'disabled-button'}type="submit" value="Vote" />
             </form>
         )
     }
