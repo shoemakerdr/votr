@@ -47,6 +47,8 @@ class Register extends Component {
         if (this.state.passwordInput !== this.state.confirmPasswordInput) {
             return this.flashError('Passwords must match')
         }
+        if (!this.state.passwordInput.match(/^.{8,}$/))
+            return this.flashError('Password must be at least 8 characters')
         votrApi.register(loginInfo)
             .then(data => {
                 if (data.error)
@@ -65,7 +67,7 @@ class Register extends Component {
     render () {
         return (
             <form className='Register' onSubmit={this.handleRegister}>
-                <h1>Sign Up for Votr</h1>
+                <h1>Sign up for Votr</h1>
                 <input
                     className='Register--input'
                     placeholder='Username'
