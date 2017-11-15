@@ -32,6 +32,7 @@ select {
     height: 36px;
     appearance: none;
     outline: none;
+    border-radius: 5px;
 }
 
 .button {
