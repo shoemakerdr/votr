@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import NotLoggedIn from './NotLoggedIn'
 import votrApi from '../votrApi'
+import { isLoggedIn } from '../authHelpers'
 import './styles/UserPage.css'
 
 class UserPage extends Component {
@@ -18,7 +20,8 @@ class UserPage extends Component {
     }
 
     componentDidMount () {
-        this.fetchPolls()
+        if (isLoggedIn())
+            this.fetchPolls()
     }
 
     handleDelete (pollId) {
@@ -37,20 +40,29 @@ class UserPage extends Component {
         const { polls } = this.state
         return (
             <div className='AllPolls'>
-            <h1>{this.props.userInfo.username}'s Polls</h1>
-            {this.state.polls.length ?
-                <div>
-                    {polls.map(poll => {
-                        const {title, poll_id} = poll
-                        return (
-                            <div key={poll_id}>
-                                <Link to={`/polls/${poll_id}`}>{title}</Link>
-                                <button className='delete-button' onClick={this.handleDelete(poll_id)}>Delete</button>
-                            </div>
-                        )
-                    })}
-                </div>
-                : 'No polls to show'}
+                { isLoggedIn() ?
+                    <h1>Polls by {this.username}</h1>
+                    : <NotLoggedIn username={this.username}/>
+                }
+                {this.state.polls.length ?
+                    <div>
+                        {polls.map(poll => {
+                            const {title, poll_id} = poll
+                            return (
+                                <div key={poll_id}>
+                                    <Link to={`/polls/${poll_id}`}>{title}</Link>
+                                    <button
+                                        className='delete-button'
+                                        onClick={this.handleDelete(poll_id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            )
+                        })}
+                    </div>
+                : isLoggedIn() ? 'No polls to show'
+                : ''}
             </div>
         )
     }

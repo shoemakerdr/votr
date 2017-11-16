@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import NotLoggedIn from './NotLoggedIn'
 import votrApi from '../votrApi'
+import { isLoggedIn } from '../authHelpers'
 import './styles/NewPoll.css'
 
 class NewPoll extends Component {
@@ -98,41 +100,44 @@ class NewPoll extends Component {
 
     render () {
         return (
-            <form className='NewPoll' onSubmit={this.handleSubmit}>
-                <h1>Create A New Poll</h1>
-                <input
-                    className='NewPoll--input'
-                    placeholder='Title'
-                    type="text"
-                    value={this.state.title}
-                    onChange={this.handleChange}
-                />
-                { this.state.options.map((option, i) => {
-                    return (
-                        <input
-                            className='NewPoll--input'
-                            placeholder='Option'
-                            type="text"
-                            key={i}
-                            name={`${i}`}
-                            value={this.state.options[i]}
-                            onChange={this.changeOption}
-                        />
-                    )
-                })}
-                <button
-                    className={this.hasNoEmptyOptions() ? 'button' : 'disabled-button'}
-                    type='button'
-                    disabled={!this.hasNoEmptyOptions()}
-                    onClick={this.addOption}
-                >
-                    Add Option
-                </button>
-                <input
-                    className={this.canSubmitPoll() ? 'button' : 'disabled-button'}
-                    type="submit"
-                    disabled={!this.canSubmitPoll()}
-                    value="Submit" />
+            <form onSubmit={this.handleSubmit}>
+                { isLoggedIn() ? <div className='NewPoll'>
+                    <h1>Create A New Poll</h1>
+                    <input
+                        className='NewPoll--input'
+                        placeholder='Title'
+                        type="text"
+                        value={this.state.title}
+                        onChange={this.handleChange}
+                    />
+                    { this.state.options.map((option, i) => {
+                        return (
+                            <input
+                                className='NewPoll--input'
+                                placeholder='Option'
+                                type="text"
+                                key={i}
+                                name={`${i}`}
+                                value={this.state.options[i]}
+                                onChange={this.changeOption}
+                            />
+                        )
+                    })}
+                    <button
+                        className={this.hasNoEmptyOptions() ? 'button' : 'disabled-button'}
+                        type='button'
+                        disabled={!this.hasNoEmptyOptions()}
+                        onClick={this.addOption}
+                    >
+                        Add Option
+                    </button>
+                    <input
+                        className={this.canSubmitPoll() ? 'button' : 'disabled-button'}
+                        type="submit"
+                        disabled={!this.canSubmitPoll()}
+                        value="Submit" />
+                    </div>
+                    : <NotLoggedIn />}
                 {this.redirectToPoll()}
             </form>
         )
