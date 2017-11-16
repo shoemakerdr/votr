@@ -23,6 +23,8 @@ class VotrApi {
             .then(data => {
                 if (data.status === 401)
                     return {error: 'Incorrect username/password'}
+                if (!data.ok)
+                    return {error: 'There was an issue processing your login. Try again later.'}
                 else return data.json()
             })
     }
@@ -37,7 +39,7 @@ class VotrApi {
         }
         return fetch(`${this.host}/auth/register`, options)
             .then(data => {
-                if (data.status === 401)
+                if (!data.ok)
                     return {error: 'There was an issue processing your registration. Try again later.'}
                 else return data.json()
             })
@@ -51,7 +53,11 @@ class VotrApi {
     getAllPollsByUser (username) {
         return fetch(`${this.host}/users/${username}/polls`, {
             headers: {token: getToken()}})
-            .then(data => data.json())
+            .then(data => {
+                if (!data.ok)
+                    return {error: 'Could not get user polls'}
+                else return data.json()
+            })
     }
 
     getPoll (pollId) {
