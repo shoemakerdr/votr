@@ -33,7 +33,7 @@ class NewPoll extends Component {
         const params = {
             title: this.state.title,
             username: this.props.userInfo.username,
-            options: this.state.options
+            options: this.state.options.map(opt => opt.trim()).filter(opt => opt !== '')
         }
         votrApi.newPoll(params)
             .then(result => this.setState({
@@ -76,7 +76,12 @@ class NewPoll extends Component {
     }
 
     noDuplicateOptions () {
-        return true
+        const { options } = this.state
+        const dupeSet = new Set()
+        options.forEach(option => {
+            dupeSet.add(option.trim())
+        })
+        return options.filter(opt => opt !== '').length > 2 || dupeSet.size === options.length
     }
 
     atLeastTwoOptions () {
