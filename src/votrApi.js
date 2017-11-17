@@ -67,7 +67,7 @@ class VotrApi {
 
     newPoll (params) {
         // params object has title, username, and options array
-        params.options = params.options.filter(option => option !== '').join('\n')
+        params.options = params.options.join('\n')
         const options = {
             method: 'POST',
             headers: {
