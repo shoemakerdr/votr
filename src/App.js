@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import Nav from './components/Nav'
+import SliderNav from './components/SliderNav'
 import Footer from './components/Footer'
 import HomePage from './components/HomePage'
 import PollList from './components/PollList'
@@ -62,6 +63,7 @@ class App extends Component {
                 <Router>
                     <div>
                         <Nav userInfo={this.state.userInfo} />
+                        <SliderNav userInfo={this.state.userInfo} />
                         <Switch>
                             <Route exact path='/' component={HomePage} />
                             <Route exact path='/polls' render={props => (
