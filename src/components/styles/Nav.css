@@ -11,3 +11,14 @@
     height: 100px;
     margin-left: 16px;
 }
+
+@media screen and (max-width: 500px) {
+    .logo {
+        height: 80px;
+        margin-left: 16px;
+    }
+
+    .menu {
+        display: none;
+    }
+}
