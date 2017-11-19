@@ -12,7 +12,7 @@
 
 .wrapperHidden {
     opacity: 0;
-    transition: all 1s cubic-bezier(.51,.01,.73,.73);
+    transition: all .5s cubic-bezier(.51,.01,.73,.73);
     z-index: 0;
 }
 
