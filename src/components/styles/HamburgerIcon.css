@@ -1,0 +1,24 @@
+
+.burger {
+    color: #FFF;
+    font-size: 32px;
+    position: absolute;
+    top: 28px;
+    right: 20px;
+    display: none;
+    transition: all .3s;
+}
+
+.burger:active {
+    color: #fc3c40;
+    font-size: 40px;
+    top: 23px;
+    right: 16px;
+    transition-duration: all 0s;
+}
+
+@media screen and (max-width: 500px) {
+    .burger {
+        display: block;
+    }
+}
