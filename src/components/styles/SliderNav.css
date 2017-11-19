@@ -1,0 +1,19 @@
+.slider {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #050d58;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+}
+
+.putAway {
+    transform: translate(100%);
+    transition: transform .3s;
+}
+
+
