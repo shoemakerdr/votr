@@ -21,11 +21,13 @@ class App extends Component {
         this.loginToApp = this.loginToApp.bind(this)
         this.signOutUser = this.signOutUser.bind(this)
         this.checkUser = this.checkUser.bind(this)
+        this.toggleSlideMenu = this.toggleSlideMenu.bind(this)
         this.defaultState = {
             userInfo: {
                 isLoggedIn: isLoggedIn(),
                 username: isLoggedIn() ? getUsername() : ''
-            }
+            },
+            slideMenuVisible: false
         }
         this.state = this.checkUser()
     }
@@ -57,13 +59,19 @@ class App extends Component {
         })
     }
 
+    toggleSlideMenu () {
+        this.setState(prevState => {
+            return {slideMenuVisible: !prevState.slideMenuVisible}
+        })
+    }
+
     render() {
         return (
             <div className="App">
                 <Router>
                     <div>
-                        <Nav userInfo={this.state.userInfo} />
-                        <SliderNav userInfo={this.state.userInfo} />
+                        <Nav toggleSlideMenu={this.toggleSlideMenu} userInfo={this.state.userInfo} />
+                        <SliderNav toggleSlideMenu={this.toggleSlideMenu} shown={this.state.slideMenuVisible} userInfo={this.state.userInfo} />
                         <Switch>
                             <Route exact path='/' component={HomePage} />
                             <Route exact path='/polls' render={props => (
