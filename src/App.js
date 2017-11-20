@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './App.css'
+import styles from './App.css'
 import Nav from './components/Nav'
 import SliderNav from './components/SliderNav'
 import Footer from './components/Footer'
@@ -67,7 +67,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className={styles.app}>
                 <Router>
                     <div>
                         <Nav toggleSlideMenu={this.toggleSlideMenu} userInfo={this.state.userInfo} />
