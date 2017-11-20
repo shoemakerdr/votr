@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import './styles/Register.css'
+import styles from './styles/Register.css'
 import votrApi from '../votrApi'
 
 class Register extends Component {
@@ -66,24 +66,24 @@ class Register extends Component {
 
     render () {
         return (
-            <form className='Register' onSubmit={this.handleRegister}>
+            <form className={styles.wrapper} onSubmit={this.handleRegister}>
                 <h1>Sign up for Votr</h1>
                 <input
-                    className='Register--input'
+                    className='input'
                     placeholder='Username'
                     type="text"
                     value={this.state.usernameInput}
                     onChange={this.changeUsername}
                 />
                 <input
-                    className='Register--input'
+                    className='input'
                     placeholder='Password'
                     type="password"
                     value={this.state.passwordInput}
                     onChange={this.changePassword}
                 />
                 <input
-                    className='Register--input'
+                    className='input'
                     placeholder='Confirm Password'
                     type="password"
                     value={this.state.confirmPasswordInput}
