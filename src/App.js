@@ -68,7 +68,7 @@ class App extends Component {
     render() {
         return (
             <div className={styles.app}>
-                <Router>
+                <Router basename='/votr'>
                     <div>
                         <Nav toggleSlideMenu={this.toggleSlideMenu} userInfo={this.state.userInfo} />
                         <SliderNav toggleSlideMenu={this.toggleSlideMenu} shown={this.state.slideMenuVisible} userInfo={this.state.userInfo} />
