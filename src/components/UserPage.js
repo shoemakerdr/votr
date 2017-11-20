@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import NotLoggedIn from './NotLoggedIn'
+import BackToLink from './BackToLink'
 import votrApi from '../votrApi'
 import { isLoggedIn } from '../authHelpers'
-import './styles/UserPage.css'
+import styles from './styles/UserPage.css'
 
 class UserPage extends Component {
     constructor (props) {
@@ -45,14 +46,14 @@ class UserPage extends Component {
                     : <NotLoggedIn username={this.username}/>
                 }
                 {this.state.polls.length ?
-                    <div>
+                    <div className={styles.list}>
                         {polls.map(poll => {
                             const {title, poll_id} = poll
                             return (
-                                <div key={poll_id}>
-                                    <Link to={`/polls/${poll_id}`}>{title}</Link>
+                                <div className={styles.listItem} key={poll_id}>
+                                    <Link className={styles.link} to={`/polls/${poll_id}`}>{title}</Link>
                                     <button
-                                        className='delete-button'
+                                        className={styles.delete}
                                         onClick={this.handleDelete(poll_id)}
                                     >
                                         &#10006;
@@ -63,6 +64,7 @@ class UserPage extends Component {
                     </div>
                 : isLoggedIn() ? 'No polls to show'
                 : ''}
+                <BackToLink to='/polls' message='Back to Polls' />
             </div>
         )
     }
