@@ -1,22 +1,87 @@
 
-.delete-button {
-    height: 36px;
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 12px 0;
+}
+
+.listItem {
+    background-color: #eaecfd;
+    position: relative;
+    margin-bottom: 8px;
+    padding: 8px 40px 8px 16px;
+    flex-basis: 95%;
     border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 24px;
+    color: #6771d1;
+    transition: color .7s;
+}
+
+.link:hover {
+    color: #fa656a;
+    transition: all .7s;
+}
+
+.link:active {
+    color: #fc3c40;
+    transition: all 0s;
+}
+
+.delete {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    outline: none;
     border: none;
-    background-color: #fc3c40;
+    background: transparent;
     margin-left: 8px;
-    padding: 0 16px;
-    color: white;
-    transition: background-color .5s;
-    font-size: 16px;
-    font-family: 'Roboto';
+    padding: 0 8px;
+    color: #fc3c40;
+    font-size: 24px;
     margin-bottom: 16px;
+    transition: all .2s;
 }
 
-.delete-button:hover {
-    background-color: #ff686b;
+.delete:hover {
+    color: #ff686b;
+    font-size: 26px;
+    top: 5px;
+    right: 3px;
 }
 
-.delete-button:active {
-    background-color: #df0004;
+.delete:active {
+    color: #df0004;
+}
+
+@media screen and (max-width: 550px) {
+    .link {
+        font-size: 20px;
+    }
+
+    .delete {
+        top: 6px;
+        right: 4px;
+        margin-left: 8px;
+        padding: 0 8px;
+        font-size: 24px;
+        margin-bottom: 16px;
+    }
+
+    .delete:hover {
+        font-size: 26px;
+        top: 5px;
+        right: 3px;
+    }
 }
