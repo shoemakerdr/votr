@@ -1,3 +1,15 @@
-.Chart {
-    margin-top: 16px;
+.wrapper {
+    margin: 16px 120px 0 120px;
+}
+
+@media screen and (max-width: 900px) {
+    .wrapper {
+        margin: 16px 50px 0 50px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .wrapper {
+        margin: 0;
+    }
 }

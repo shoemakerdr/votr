@@ -7,7 +7,7 @@
 
 .link {
     text-decoration: none;
-    font-weight: bolder;
+    /* font-weight: bolder; */
     color: #6771d1;
     transition: color .7s;
 }
