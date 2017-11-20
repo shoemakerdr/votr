@@ -1,12 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-// import './NotFoundPage.css'
+import BackToLink from './BackToLink'
+import styles from './styles/NotFoundPage.css'
 
 const NotFoundPage = props => {
     return (
-        <div className='HomePage'>
-            <h1>PAGE NOT FOUND</h1>
-            <Link to='/'>Back to Home Page</Link>
+        <div className={styles.wrapper}>
+            <div className={styles.fourOhFour}>404 Error</div>
+            <h2 className={styles.message}>Whoops! Looks like this page doesn't exist or can't be found.</h2>
+            <BackToLink message='Back to Home Page' to='/' />
         </div>
     )
 }
