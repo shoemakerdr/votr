@@ -7,13 +7,12 @@
 
 .link {
     text-decoration: none;
-    /* font-weight: bolder; */
     color: #6771d1;
     transition: color .7s;
 }
 
 .link:hover {
-    color: #f88084;
+    color: #fa656a;
     transition: all .7s;
     
 }
