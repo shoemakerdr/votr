@@ -69,6 +69,16 @@ select {
     margin-bottom: 16px;
 }
 
+:global(.input) {
+    width: 300px;
+    height: 34px;
+    border: 1px solid #989de0;
+    border-radius: 5px;
+    background: #eee;
+    padding-left: 5px;
+    margin-bottom: 16px;
+}
+
 :global(.error ){
     height: 16px;
     color: red;
