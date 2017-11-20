@@ -4,7 +4,7 @@ import styles from './styles/Footer.css'
 const Footer = props => {
     return (
         <div className={styles.footer}>
-            <h4>by <a href='https://github.com/shoemakerdr' className={styles.link}>Derek Shoemaker</a></h4>
+            <div>by <a href='https://github.com/shoemakerdr' target='_blank' rel='noopener noreferrer' className={styles.link}>Derek Shoemaker</a></div>
         </div>
     )
 }
