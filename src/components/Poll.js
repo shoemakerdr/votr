@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import Chart from './Chart'
 import VotingForm from './VotingForm'
 import NotFoundPage from './NotFoundPage'
+import BackToLink from './BackToLink'
 import votrApi from '../votrApi'
+import styles from './styles/Poll.css'
 
 class Poll extends Component {
     constructor (props) {
@@ -30,14 +32,15 @@ class Poll extends Component {
 
     render () {
         return (
-            <div className='Poll'>
+            <div>
                 { (this.state.poll && this.state.poll.options) &&
                     <div>
-                        <h1>{this.state.poll.title}</h1>
-                        <VotingForm  userInfo={this.props.userInfo} options={this.state.poll.options} submitVote={this.submitVote} />
+                        <h1 className={styles.title}>{this.state.poll.title}</h1>
+                        <VotingForm userInfo={this.props.userInfo} options={this.state.poll.options} submitVote={this.submitVote} />
                         <Chart options={this.state.poll.options} />
                     </div>}
                     {(this.state.poll && this.state.poll.error) && <NotFoundPage />}
+                <BackToLink to='/polls' message='Back to Polls' />
             </div>
         )
     }
