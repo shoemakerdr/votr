@@ -1,0 +1,16 @@
+
+.wrapper {
+    margin-bottom: 16px;
+}
+
+.message {
+    margin-bottom: 48px;
+    padding: 16px 8px;
+    font-size: 48px;
+}
+
+@media screen and (max-width: 550px) {
+    .message {
+        font-size: 36px;
+    }
+}

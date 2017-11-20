@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300');
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fourOhFour {
+    border: 1px solid #ec4848;
+    border-radius: 5px;
+    background-color: #fac1c1;
+    color: #ec4848;
+    font-family: 'Roboto mono', monospace;
+    font-size: 64px;
+    margin: 20px 0;
+    padding: 8px;
+}
+
+.message {
+    margin-bottom: 48px;
+    padding: 0 8px;
+}
+
+@media screen and (max-width: 425px) {
+    .fourOhFour {
+        font-size: 48px;
+    }
+}
