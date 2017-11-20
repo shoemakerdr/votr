@@ -25,7 +25,7 @@ class PollList extends Component {
         const { polls } = this.state
         return (
             <div className={styles.list}>
-                <h1 className={styles.title}>Current Polls</h1>
+                <h1 className={styles.title}>All Polls</h1>
                 {this.state.polls.length ?
                     <div>
                         {polls.map(poll => {
