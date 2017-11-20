@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import votrCheckmark from '../images/votr-checkmark.png'
-import './styles/VotingForm.css'
+import styles from './styles/VotingForm.css'
 
-const styles = {
-    select: {
-        background: `url(${votrCheckmark}) 96% / 13% no-repeat #eee`,
-    }
+const votrCheckmarkStyle = {
+    background: `url(${votrCheckmark}) 96% / 13% no-repeat #eee`,
 }
 
 class VotingForm extends Component {
@@ -43,12 +41,12 @@ class VotingForm extends Component {
     }
 
     isNoDuplicateOption (name) {
-        const lower = name.toLowerCase()
+        const lower = name.toLowerCase().trim()
         return this.props.options.every(option => option.name.toLowerCase() !== lower)
     }
 
-    getOptionId (name) {
-        const lower = name.toLowerCase()
+    getOption (name) {
+        const lower = name.toLowerCase().trim()
         return this.props.options.find(option => option.name.toLowerCase() === lower)
     }
 
@@ -56,8 +54,8 @@ class VotingForm extends Component {
         let vote
         if (this.state.customOption) {
             if (this.isNoDuplicateOption(this.state.inputValue))
-                vote = {option: this.state.inputValue}
-            else vote = {optionId: this.getOptionId(this.state.inputValue).id}
+                vote = {option: this.state.inputValue.trim()}
+            else vote = {optionId: this.getOption(this.state.inputValue).id}
         }
         else vote = {optionId: this.state.selectId}
         this.props.submitVote(vote)
@@ -66,13 +64,13 @@ class VotingForm extends Component {
     }
 
     canSubmitVote () {
-        return !this.state.customOption || this.state.inputValue !== ''
+        return !this.state.customOption || this.state.inputValue.trim() !== ''
     }
 
     render () {
         return (
-            <form className='VotingForm' onSubmit={this.handleSubmit}>
-                <select value={this.state.selectValue} onChange={this.changeSelect} style={styles.select}>
+            <form className={styles.form} onSubmit={this.handleSubmit}>
+                <select value={this.state.selectValue} onChange={this.changeSelect} style={votrCheckmarkStyle}>
                     {this.props.options.map(option => {
                         return (
                             <option key={option.id} id={option.id} value={option.name}>{option.name}</option>
@@ -82,9 +80,9 @@ class VotingForm extends Component {
                 </select>
                 {this.state.customOption &&
                     <label>
-                        <input className='VotingForm--custom-option-input' placeholder='Your custom option' type="text" value={this.state.inputValue} onChange={this.changeCustomOption} />
+                        <input className={styles.custom} placeholder='Your custom option' type="text" value={this.state.inputValue} onChange={this.changeCustomOption} />
                     </label>}
-                <input disabled={!this.canSubmitVote()} className={this.canSubmitVote() ? 'button' : 'disabled-button'}type="submit" value="Vote" />
+                <input disabled={!this.canSubmitVote()} className={this.canSubmitVote() ? 'button' : 'disabled-button'} type="submit" value="Vote" />
             </form>
         )
     }
