@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import NotLoggedIn from './NotLoggedIn'
+import BackToLink from './BackToLink'
 import votrApi from '../votrApi'
 import { isLoggedIn } from '../authHelpers'
-import './styles/NewPoll.css'
+import styles from './styles/NewPoll.css'
 
 class NewPoll extends Component {
     constructor (props) {
@@ -59,7 +60,7 @@ class NewPoll extends Component {
             newOptions.push('')
             this.setState({
                 options: newOptions
-            })
+            }, () => this.lastItem.focus()) // focus on last item after adding option
         }
     }
 
@@ -106,31 +107,34 @@ class NewPoll extends Component {
     render () {
         return (
             <form onSubmit={this.handleSubmit}>
-                { isLoggedIn() ? <div className='NewPoll'>
+                { isLoggedIn() ? <div className={styles.wrapper}>
                     <h1>Create A New Poll</h1>
                     <input
-                        className='NewPoll--input'
+                        className='input'
                         placeholder='Title'
-                        type="text"
+                        type='text'
                         value={this.state.title}
                         onChange={this.handleChange}
                     />
                     { this.state.options.map((option, i) => {
                         return (
                             <input
-                                className='NewPoll--input'
+                                className='input'
                                 placeholder='Option'
-                                type="text"
+                                type='text'
                                 key={i}
                                 name={`${i}`}
                                 value={this.state.options[i]}
                                 onChange={this.changeOption}
+                                ref={input => {
+                                    if (i === this.state.options.length - 1)
+                                        this.lastItem = input
+                                }}
                             />
                         )
                     })}
                     <button
                         className={this.hasNoEmptyOptions() ? 'button' : 'disabled-button'}
-                        type='button'
                         disabled={!this.hasNoEmptyOptions()}
                         onClick={this.addOption}
                     >
@@ -138,12 +142,13 @@ class NewPoll extends Component {
                     </button>
                     <input
                         className={this.canSubmitPoll() ? 'button' : 'disabled-button'}
-                        type="submit"
+                        type='submit'
                         disabled={!this.canSubmitPoll()}
-                        value="Submit" />
+                        value='Submit' />
                     </div>
                     : <NotLoggedIn />}
                 {this.redirectToPoll()}
+                { isLoggedIn() && <BackToLink to={`/users/${this.props.userInfo.username}`} message='To Your Dashboard' />}
             </form>
         )
     }
