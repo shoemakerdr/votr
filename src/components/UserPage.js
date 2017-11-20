@@ -55,7 +55,7 @@ class UserPage extends Component {
                                         className='delete-button'
                                         onClick={this.handleDelete(poll_id)}
                                     >
-                                        Delete
+                                        &#10006;
                                     </button>
                                 </div>
                             )
