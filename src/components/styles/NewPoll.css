@@ -1,18 +1,7 @@
 
-.NewPoll {
+.wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
-.NewPoll--input {
-    width: 300px;
-    height: 34px;
-    border: 1px solid #989de0;
-    border-radius: 5px;
-    background: #eee;
-    padding-left: 5px;
-    margin-bottom: 16px;
-}
-
