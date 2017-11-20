@@ -1,11 +1,28 @@
 import React from 'react'
-import { Doughnut } from 'react-chartjs-2'
+import { Pie } from 'react-chartjs-2'
 import { colorsFromDataLength } from '../utils'
-import './styles/Chart.css'
+import styles from './styles/Chart.css'
 
 const Chart = props => {
     const labels = props.options.map(opt => opt.name)
     const data = props.options.map(opt => opt.votes)
+    const options = {
+        maintainAspectRatio: true,
+        layout: {
+            padding: {
+                left: 10,
+                right: 10,
+            }
+        },
+        legend: {
+            display: true,
+            position: 'bottom',
+            fullWidth: false,
+            labels: {
+                boxWidth: 12,
+            }
+        }
+    }
     const colors = colorsFromDataLength(props.options.length)
     const chartData = {
         labels: labels,
@@ -16,9 +33,9 @@ const Chart = props => {
         }]
     }
     return (
-        <div className='Chart'>
+        <div className={styles.wrapper}>
             <div>
-                <Doughnut data={chartData} />
+                <Pie data={chartData} options={options}/>
             </div>
         </div>
     )
