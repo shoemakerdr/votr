@@ -1,0 +1,49 @@
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 52px;
+}
+.link {
+    text-decoration: none;
+}
+
+.message {
+    font-size: 24px;
+    display: inline;
+    color: #6771d1;
+    text-decoration: none;
+    transition: color .5s;
+}
+
+.message:hover {
+    color: #fa656a;
+}
+
+.message:active {
+    color: #ec4848;
+}
+
+.leftArrow {
+    fill: none;
+    stroke: #6771d1;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    display: inline-block;
+    transform: rotate(-135deg);
+}
+
+.rightArrow {
+    fill: none;
+    stroke: #6771d1;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    display: inline-block;
+    transform: rotate(-315deg);
+}
+
+.hidden {
+    display: none;
+}
