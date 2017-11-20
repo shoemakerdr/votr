@@ -1,0 +1,43 @@
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 12px 0;
+}
+
+.listItem {
+    background-color: #eaecfd;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+    flex-basis: 95%;
+    border-radius: 5px;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bolder;
+    color: #6771d1;
+    transition: color .7s;
+}
+
+.link:hover {
+    color: #f88084;
+    transition: all .7s;
+    
+}
+
+.link:active {
+    color: #fc3c40;
+    transition: all 0s;
+}
+
+@media screen and (max-width: 550px) {
+    .link {
+        font-size: 20px;
+    }
+}
