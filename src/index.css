@@ -19,7 +19,7 @@ input {
     line-height: normal;
     -webkit-font-smoothing: inherit;
     -moz-osx-font-smoothing: inherit;
-    -webkit-appearance: none;
+    appearance: none;
 }
 
 select {
@@ -35,7 +35,7 @@ select {
     border-radius: 5px;
 }
 
-.button {
+:global(.button) {
     height: 36px;
     border-radius: 5px;
     background-color: #050D58;
@@ -48,15 +48,15 @@ select {
     margin-bottom: 16px;
 }
 
-.button:hover {
+:global(.button:hover) {
     background-color: #fc3c40;
 }
 
-.button:active {
+:global(.button:active) {
     background-color: #df0004;
 }
 
-.disabled-button {
+:global(.disabled-button) {
     border: none;
     background-color: #EEE;
     margin-left: 8px;
@@ -69,7 +69,7 @@ select {
     margin-bottom: 16px;
 }
 
-.error {
+:global(.error ){
     height: 16px;
     color: red;
 }
