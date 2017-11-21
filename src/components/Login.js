@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import styles from './styles/Login.css'
 import votrApi from '../votrApi'
+import Loading from './Loading'
 
 class Login extends Component {
     constructor (props) {
@@ -15,13 +16,14 @@ class Login extends Component {
             errorMessage: '',
             shouldRedirect: false,
             usernameInput: '',
-            passwordInput: ''
+            passwordInput: '',
+            isLoading: false,
         }
         this.state = this.defaultState
     }
 
     flashError (err) {
-        this.setState({errorMessage: err})
+        this.setState({errorMessage: err, isLoading: false})
         setTimeout(() => this.setState({errorMessage: ''}), 2000)
     }
 
@@ -34,6 +36,7 @@ class Login extends Component {
     }
 
     handleLogin (event) {
+        this.setState({isLoading: true})
         const loginInfo = {
             username: this.state.usernameInput,
             password: this.state.passwordInput
@@ -54,6 +57,7 @@ class Login extends Component {
     }
 
     render () {
+        const { usernameInput, passwordInput, shouldRedirect, errorMessage, isLoading} = this.state
         return (
             <form className={styles.wrapper} onSubmit={this.handleLogin}>
                 <h1>Login</h1>
@@ -61,14 +65,14 @@ class Login extends Component {
                     className='input'
                     placeholder='Username'
                     type="text"
-                    value={this.state.usernameInput}
+                    value={usernameInput}
                     onChange={this.changeUsername}
                 />
                 <input
                     className='input'
                     placeholder='Password'
                     type="password"
-                    value={this.state.passwordInput}
+                    value={passwordInput}
                     onChange={this.changePassword}
                 />
                 <input
@@ -76,8 +80,9 @@ class Login extends Component {
                     type="submit"
                     disabled={!this.canLogin()}
                     value="Login" />
-                {this.state.shouldRedirect && <Redirect to='/'/>}
-                <div className='error'>{this.state.errorMessage}</div>
+                {shouldRedirect && <Redirect to='/'/>}
+                <div className='error'>{errorMessage}</div>
+                {isLoading && <Loading />}
             </form>
         )
     }

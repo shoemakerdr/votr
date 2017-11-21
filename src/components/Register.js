@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import styles from './styles/Register.css'
 import votrApi from '../votrApi'
+import Loading from './Loading'
 
 class Register extends Component {
     constructor (props) {
@@ -16,13 +17,14 @@ class Register extends Component {
             errorMessage: '',
             usernameInput: '',
             passwordInput: '',
-            confirmPasswordInput: ''
+            confirmPasswordInput: '',
+            isLoading: false,
         }
         this.state = this.defaultState
     }
 
     flashError (err) {
-        this.setState({errorMessage: err})
+        this.setState({errorMessage: err, isLoading: false})
         setTimeout(() => this.setState({errorMessage: ''}), 2000)
     }
 
@@ -49,6 +51,7 @@ class Register extends Component {
         }
         if (!this.state.passwordInput.match(/^.{8,}$/))
             return this.flashError('Password must be at least 8 characters')
+        this.setState({isLoading: true})
         votrApi.register(loginInfo)
             .then(data => {
                 if (data.error)
@@ -65,6 +68,14 @@ class Register extends Component {
     }
 
     render () {
+        const {
+            usernameInput,
+            passwordInput,
+            confirmPasswordInput,
+            errorMessage,
+            shouldRedirect,
+            isLoading
+        } = this.state
         return (
             <form className={styles.wrapper} onSubmit={this.handleRegister}>
                 <h1>Sign up for Votr</h1>
@@ -72,21 +83,21 @@ class Register extends Component {
                     className='input'
                     placeholder='Username'
                     type="text"
-                    value={this.state.usernameInput}
+                    value={usernameInput}
                     onChange={this.changeUsername}
                 />
                 <input
                     className='input'
                     placeholder='Password'
                     type="password"
-                    value={this.state.passwordInput}
+                    value={passwordInput}
                     onChange={this.changePassword}
                 />
                 <input
                     className='input'
                     placeholder='Confirm Password'
                     type="password"
-                    value={this.state.confirmPasswordInput}
+                    value={confirmPasswordInput}
                     onChange={this.changeConfirmPassword}
                 />
                 <input
@@ -94,8 +105,9 @@ class Register extends Component {
                     type="submit"
                     disabled={!this.canRegister()}
                     value="Sign Up" />
-                <div className='error'>{this.state.errorMessage}</div>
-                {this.state.shouldRedirect && <Redirect to='/'/>}
+                <div className='error'>{errorMessage}</div>
+                {shouldRedirect && <Redirect to='/'/>}
+                {isLoading && <Loading />}
             </form>
         )
     }

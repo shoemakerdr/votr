@@ -2,19 +2,20 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './styles/PollList.css'
 import votrApi from '../votrApi'
-
-const initialState = {
-            polls: []
-        }
+import Loading from './Loading'
 
 class PollList extends Component {
     constructor () {
         super()
-        this.state = { ...initialState }
+        this.defaultState = {
+            polls: [],
+            isLoading: true,
+        }
+        this.state = this.defaultState
     }
 
     componentDidMount () {
-        this.fetchPolls().then(polls => this.setState({polls: polls}))
+        this.fetchPolls().then(polls => this.setState({polls: polls, isLoading: false}))
     }
 
     fetchPolls () {
@@ -22,11 +23,11 @@ class PollList extends Component {
     }
 
     render () {
-        const { polls } = this.state
+        const { polls, isLoading } = this.state
         return (
             <div className={styles.list}>
                 <h1 className={styles.title}>All Polls</h1>
-                {this.state.polls.length ?
+                {(!isLoading && polls.length) &&
                     <div>
                         {polls.map(poll => {
                             const {title, poll_id} = poll
@@ -36,8 +37,9 @@ class PollList extends Component {
                                 </div>
                             )
                         })}
-                    </div>
-                    : 'No polls to show'}
+                    </div>}
+                    {(!isLoading && !polls.length) && 'No polls to show'}
+                {isLoading && <Loading />}
             </div>
         )
     }

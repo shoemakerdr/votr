@@ -5,6 +5,7 @@ import NotFoundPage from './NotFoundPage'
 import BackToLink from './BackToLink'
 import votrApi from '../votrApi'
 import styles from './styles/Poll.css'
+import Loading from './Loading'
 
 class Poll extends Component {
     constructor (props) {
@@ -12,7 +13,8 @@ class Poll extends Component {
         this.submitVote = this.submitVote.bind(this)
         this.pollId = props.match.params.poll_id
         this.state = {
-            poll: null
+            poll: null,
+            isLoading: true,
         }
     }
 
@@ -22,24 +24,27 @@ class Poll extends Component {
 
     fetchPoll () {
         votrApi.getPoll(this.pollId)
-            .then(poll => this.setState({poll: poll}))
+            .then(poll => this.setState({poll: poll, isLoading: false}))
     }
 
     submitVote (vote) {
+        this.setState({isLoading:true})
         votrApi.submitVote(this.pollId, vote)
             .then(() => this.fetchPoll())
     }
 
     render () {
+        const { poll, isLoading } = this.state
         return (
             <div>
-                { (this.state.poll && this.state.poll.options) &&
+                { (poll && poll.options) &&
                     <div>
-                        <h1 className={styles.title}>{this.state.poll.title}</h1>
-                        <VotingForm userInfo={this.props.userInfo} options={this.state.poll.options} submitVote={this.submitVote} />
-                        <Chart options={this.state.poll.options} />
+                        <h1 className={styles.title}>{poll.title}</h1>
+                        <VotingForm userInfo={this.props.userInfo} options={poll.options} submitVote={this.submitVote} />
+                        <Chart options={poll.options} />
                     </div>}
-                    {(this.state.poll && this.state.poll.error) && <NotFoundPage />}
+                    {(poll && poll.error) && <NotFoundPage />}
+                {isLoading && <Loading />}
                 <BackToLink to='/polls' message='Back to Polls' />
             </div>
         )
