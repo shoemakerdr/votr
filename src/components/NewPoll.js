@@ -6,6 +6,7 @@ import votrApi from '../votrApi'
 import { isLoggedIn } from '../authHelpers'
 import styles from './styles/NewPoll.css'
 import Loading from './Loading'
+import ErrorFlashMessage from './ErrorFlashMessage'
 
 class NewPoll extends Component {
     constructor (props) {
@@ -24,6 +25,7 @@ class NewPoll extends Component {
             options: ['',''],
             shouldRedirect: false,
             isLoading: false,
+            errorMessage: '',
         }
         this.state = this.defaultState
     }
@@ -40,10 +42,14 @@ class NewPoll extends Component {
             options: this.state.options.map(opt => opt.trim()).filter(opt => opt !== '')
         }
         votrApi.newPoll(params)
-            .then(result => this.setState({
-                shouldRedirect: true,
-                newPollId: result.poll_id
-            }))
+            .then(result => {
+                if (result.error)
+                    return this.setState({errorMessage: result.error, isLoading: false})
+                this.setState({
+                    shouldRedirect: true,
+                    newPollId: result.poll_id
+                })
+            })
         event.preventDefault()
     }
 
@@ -109,7 +115,7 @@ class NewPoll extends Component {
     }
 
     render () {
-        const { title, options, isLoading } = this.state
+        const { title, options, isLoading, errorMessage } = this.state
         return (
             <form onSubmit={this.handleSubmit}>
                 { isLoggedIn() ? <div className={styles.wrapper}>
@@ -152,6 +158,7 @@ class NewPoll extends Component {
                         value='Submit' />
                     </div>
                     : <NotLoggedIn />}
+                {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 {this.redirectToPoll()}
                 { isLoggedIn() && <BackToLink to={`/users/${this.props.userInfo.username}`} message='To Your Dashboard' />}
                 {isLoading && <Loading />}

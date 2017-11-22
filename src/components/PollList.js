@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styles from './styles/PollList.css'
 import votrApi from '../votrApi'
 import Loading from './Loading'
+import ErrorFlashMessage from './ErrorFlashMessage'
 
 class PollList extends Component {
     constructor () {
@@ -10,12 +11,17 @@ class PollList extends Component {
         this.defaultState = {
             polls: [],
             isLoading: true,
+            errorMessage: '',
         }
         this.state = this.defaultState
     }
 
     componentDidMount () {
-        this.fetchPolls().then(polls => this.setState({polls: polls, isLoading: false}))
+        this.fetchPolls().then(polls => {
+            if (polls.error)
+                return this.setState({errorMessage: polls.error, isLoading: false})
+            this.setState({polls: polls, isLoading: false})
+        })
     }
 
     fetchPolls () {
@@ -23,10 +29,11 @@ class PollList extends Component {
     }
 
     render () {
-        const { polls, isLoading } = this.state
+        const { polls, isLoading, errorMessage } = this.state
         return (
             <div className={styles.list}>
                 <h1 className={styles.title}>All Polls</h1>
+                {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 {(!isLoading && polls.length) &&
                     <div>
                         {polls.map(poll => {
@@ -38,7 +45,7 @@ class PollList extends Component {
                             )
                         })}
                     </div>}
-                    {(!isLoading && !polls.length) && 'No polls to show'}
+                    {(!isLoading && !polls.length && !errorMessage) && 'No polls to show'}
                 {isLoading && <Loading />}
             </div>
         )

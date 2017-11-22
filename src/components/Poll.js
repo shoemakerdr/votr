@@ -6,6 +6,7 @@ import BackToLink from './BackToLink'
 import votrApi from '../votrApi'
 import styles from './styles/Poll.css'
 import Loading from './Loading'
+import ErrorFlashMessage from './ErrorFlashMessage'
 
 class Poll extends Component {
     constructor (props) {
@@ -16,6 +17,7 @@ class Poll extends Component {
         this.state = {
             poll: null,
             isLoading: true,
+            errorMessage: '',
         }
     }
 
@@ -25,7 +27,11 @@ class Poll extends Component {
 
     fetchPoll () {
         votrApi.getPoll(this.pollId)
-            .then(poll => this.setState({poll: poll, isLoading: false}))
+            .then(poll => {
+                if (this.state.poll && poll.error)
+                    return this.setState({errorMessage: poll.error, isLoading: false})
+                this.setState({poll: poll, isLoading: false})
+        })
     }
 
     submitVote (vote) {
@@ -39,7 +45,7 @@ class Poll extends Component {
     }
 
     render () {
-        const { poll, isLoading } = this.state
+        const { poll, isLoading, errorMessage } = this.state
         return (
             <div>
                 { (poll && poll.options) &&
@@ -47,12 +53,13 @@ class Poll extends Component {
                         <h1 className={styles.title}>{poll.title}</h1>
                         <VotingForm userInfo={this.props.userInfo} options={poll.options} submitVote={this.submitVote} />
                     </div>}
-                    {(!isLoading && this.hasVotes(poll.options))
+                    {(!isLoading && poll && poll.options && this.hasVotes(poll.options))
                             ? <Chart options={poll.options} />
-                            : !isLoading
+                            : !isLoading && !poll.error
                                 ? <div>No votes yet.</div>
                                 : ''}
                     {(poll && poll.error) && <NotFoundPage />}
+                    {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 {isLoading && <Loading />}
                 <BackToLink to='/polls' message='Back to Polls' />
             </div>

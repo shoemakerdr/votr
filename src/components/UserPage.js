@@ -6,6 +6,7 @@ import votrApi from '../votrApi'
 import { isLoggedIn } from '../authHelpers'
 import styles from './styles/UserPage.css'
 import Loading from './Loading'
+import ErrorFlashMessage from './ErrorFlashMessage'
 
 class UserPage extends Component {
     constructor (props) {
@@ -15,12 +16,17 @@ class UserPage extends Component {
         this.defaultState = {
             polls: [],
             isLoading: true,
+            errorMessage: '',
         }
         this.state = this.defaultState
     }
     fetchPolls () {
         votrApi.getAllPollsByUser(this.username)
-            .then(polls => this.setState({polls: polls, isLoading: false}))
+            .then(polls => {
+                if (polls.error)
+                    return this.setState({errorMessage: polls.error, isLoading: false})
+                this.setState({polls: polls, isLoading: false})
+            })
     }
 
     componentDidMount () {
@@ -43,7 +49,7 @@ class UserPage extends Component {
     }
 
     render () {
-        const { polls, isLoading } = this.state
+        const { polls, isLoading, errorMessage } = this.state
         return (
             <div className='AllPolls'>
                 { isLoggedIn() ?
@@ -69,6 +75,7 @@ class UserPage extends Component {
                     </div>
                 : !isLoading && isLoggedIn() ? 'No polls to show'
                 : ''}
+                {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 <BackToLink to='/polls' message='Back to Polls' />
                 {isLoading && <Loading />}
             </div>
