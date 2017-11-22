@@ -5,6 +5,7 @@ import BackToLink from './BackToLink'
 import votrApi from '../votrApi'
 import { isLoggedIn } from '../authHelpers'
 import styles from './styles/NewPoll.css'
+import Loading from './Loading'
 
 class NewPoll extends Component {
     constructor (props) {
@@ -21,7 +22,8 @@ class NewPoll extends Component {
         this.defaultState = {
             title: '',
             options: ['',''],
-            shouldRedirect: false
+            shouldRedirect: false,
+            isLoading: false,
         }
         this.state = this.defaultState
     }
@@ -31,6 +33,7 @@ class NewPoll extends Component {
     }
 
     handleSubmit (event) {
+        this.setState({isLoading: true})
         const params = {
             title: this.state.title,
             username: this.props.userInfo.username,
@@ -97,14 +100,16 @@ class NewPoll extends Component {
     }
 
     redirectToPoll () {
+        const { shouldRedirect, newPollId } = this.state
         return (
             <div>
-                {this.state.shouldRedirect && <Redirect to={`/polls/${this.state.newPollId}`} />}
+                {shouldRedirect && <Redirect to={`/polls/${newPollId}`} />}
             </div>
         )
     }
 
     render () {
+        const { title, options, isLoading } = this.state
         return (
             <form onSubmit={this.handleSubmit}>
                 { isLoggedIn() ? <div className={styles.wrapper}>
@@ -113,7 +118,7 @@ class NewPoll extends Component {
                         className='input'
                         placeholder='Title'
                         type='text'
-                        value={this.state.title}
+                        value={title}
                         onChange={this.handleChange}
                     />
                     { this.state.options.map((option, i) => {
@@ -124,7 +129,7 @@ class NewPoll extends Component {
                                 type='text'
                                 key={i}
                                 name={`${i}`}
-                                value={this.state.options[i]}
+                                value={options[i]}
                                 onChange={this.changeOption}
                                 ref={input => {
                                     if (i === this.state.options.length - 1)
@@ -149,6 +154,7 @@ class NewPoll extends Component {
                     : <NotLoggedIn />}
                 {this.redirectToPoll()}
                 { isLoggedIn() && <BackToLink to={`/users/${this.props.userInfo.username}`} message='To Your Dashboard' />}
+                {isLoading && <Loading />}
             </form>
         )
     }
