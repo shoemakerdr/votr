@@ -11,6 +11,7 @@ class Poll extends Component {
     constructor (props) {
         super()
         this.submitVote = this.submitVote.bind(this)
+        this.hasVotes = this.hasVotes.bind(this)
         this.pollId = props.match.params.poll_id
         this.state = {
             poll: null,
@@ -33,6 +34,10 @@ class Poll extends Component {
             .then(() => this.fetchPoll())
     }
 
+    hasVotes (options) {  
+        return options.some(opt => opt.votes > 0)
+    }
+
     render () {
         const { poll, isLoading } = this.state
         return (
@@ -41,8 +46,12 @@ class Poll extends Component {
                     <div>
                         <h1 className={styles.title}>{poll.title}</h1>
                         <VotingForm userInfo={this.props.userInfo} options={poll.options} submitVote={this.submitVote} />
-                        <Chart options={poll.options} />
                     </div>}
+                    {(!isLoading && this.hasVotes(poll.options))
+                            ? <Chart options={poll.options} />
+                            : !isLoading
+                                ? <div>No votes yet.</div>
+                                : ''}
                     {(poll && poll.error) && <NotFoundPage />}
                 {isLoading && <Loading />}
                 <BackToLink to='/polls' message='Back to Polls' />
