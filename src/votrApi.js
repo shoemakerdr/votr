@@ -47,7 +47,11 @@ class VotrApi {
 
     getAllPolls () {
         return fetch(`${this.host}/polls`)
-            .then(data => data.json())
+            .then(data => {
+                if (!data.ok)
+                    return {error: 'There was an error. Could not get polls.'}
+                else return data.json()
+            })
     }
 
     getAllPollsByUser (username) {
@@ -55,14 +59,18 @@ class VotrApi {
             headers: {token: getToken()}})
             .then(data => {
                 if (!data.ok)
-                    return {error: 'Could not get user polls'}
+                    return {error: `There was an error. Could not get polls for ${username}`}
                 else return data.json()
             })
     }
 
     getPoll (pollId) {
         return fetch(`${this.host}/polls/${pollId}`)
-            .then(data => data.json())
+            .then(data => {
+                if (!data.ok)
+                    return {error: 'There was an error. Could not get poll'}
+                return data.json()
+            })
     }
 
     newPoll (params) {
@@ -77,7 +85,11 @@ class VotrApi {
             body: this.encodeParams(params)
         }
         return fetch(`${this.host}/polls`, options)
-            .then(data => data.json())
+            .then(data => {
+                if (!data.ok)
+                    return {error: 'There was an error creating your poll. Please try again later.'}
+                else return data.json()
+            })
     }
 
     submitVote (pollId, params) {
@@ -88,7 +100,11 @@ class VotrApi {
             body: this.encodeParams(params)
         }
         return fetch(`${this.host}/polls/${pollId}/vote`, options)
-            .then(data => data.json())
+            .then(data => {
+                if (!data.ok)
+                    return {error: 'There was an error submitting your vote. Please try again later.'}
+                else return data.json()
+            })
     }
 
     deletePoll (pollId) {
@@ -96,8 +112,12 @@ class VotrApi {
             method:'DELETE',
             headers: {token: getToken()}
         })
-            .then(data => data.json())
+            .then(data => {
+                if (!data.ok)
+                    return {error: 'There was an error processing your request. Please try again later.'}
+                else return data.json()
+            })
     }
 }
 
-export default new VotrApi('http://localhost:8000/api')
+export default new VotrApi('https://i-am-votr.herokuapp.com/api')
