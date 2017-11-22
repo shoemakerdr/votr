@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import styles from './styles/Login.css'
 import votrApi from '../votrApi'
 import Loading from './Loading'
+import ErrorFlashMessage from './ErrorFlashMessage'
 
 class Login extends Component {
     constructor (props) {
@@ -11,7 +12,6 @@ class Login extends Component {
         this.changePassword = this.changePassword.bind(this)
         this.handleLogin = this.handleLogin.bind(this)
         this.canLogin = this.canLogin.bind(this)
-        this.flashError = this.flashError.bind(this)
         this.defaultState = {
             errorMessage: '',
             shouldRedirect: false,
@@ -20,11 +20,6 @@ class Login extends Component {
             isLoading: false,
         }
         this.state = this.defaultState
-    }
-
-    flashError (err) {
-        this.setState({errorMessage: err, isLoading: false})
-        setTimeout(() => this.setState({errorMessage: ''}), 2000)
     }
 
     changeUsername (event) {
@@ -45,7 +40,7 @@ class Login extends Component {
         votrApi.login(loginInfo)
             .then(data => {
                 if (data.error)
-                    return this.flashError(data.error)
+                    return this.setState({errorMessage: data.error, isLoading: false})
                 this.props.loginToApp(data)
                 this.setState({shouldRedirect: true})
             })
@@ -81,7 +76,7 @@ class Login extends Component {
                     disabled={!this.canLogin()}
                     value="Login" />
                 {shouldRedirect && <Redirect to='/'/>}
-                <div className='error'>{errorMessage}</div>
+                {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 {isLoading && <Loading />}
             </form>
         )

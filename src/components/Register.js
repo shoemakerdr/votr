@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import styles from './styles/Register.css'
 import votrApi from '../votrApi'
 import Loading from './Loading'
+import ErrorFlashMessage from './ErrorFlashMessage'
 
 class Register extends Component {
     constructor (props) {
@@ -12,7 +13,6 @@ class Register extends Component {
         this.changeConfirmPassword = this.changeConfirmPassword.bind(this)
         this.handleRegister = this.handleRegister.bind(this)
         this.canRegister = this.canRegister.bind(this)
-        this.flashError = this.flashError.bind(this)
         this.defaultState = {
             errorMessage: '',
             usernameInput: '',
@@ -21,11 +21,6 @@ class Register extends Component {
             isLoading: false,
         }
         this.state = this.defaultState
-    }
-
-    flashError (err) {
-        this.setState({errorMessage: err, isLoading: false})
-        setTimeout(() => this.setState({errorMessage: ''}), 2000)
     }
 
     changeUsername (event) {
@@ -47,15 +42,15 @@ class Register extends Component {
         }
         event.preventDefault()
         if (this.state.passwordInput !== this.state.confirmPasswordInput) {
-            return this.flashError('Passwords must match')
+            return this.setState({errorMessage: 'Passwords must match'})
         }
         if (!this.state.passwordInput.match(/^.{8,}$/))
-            return this.flashError('Password must be at least 8 characters')
+            return this.setState({errorMessage: 'Password must be at least 8 characters'})
         this.setState({isLoading: true})
         votrApi.register(loginInfo)
             .then(data => {
                 if (data.error)
-                    return this.flashError(data.error)
+                    return this.setState({errorMessage: data.error})
                 this.props.loginToApp(data)
                 this.setState({shouldRedirect: true})
             })
@@ -105,7 +100,7 @@ class Register extends Component {
                     type="submit"
                     disabled={!this.canRegister()}
                     value="Sign Up" />
-                <div className='error'>{errorMessage}</div>
+                {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 {shouldRedirect && <Redirect to='/'/>}
                 {isLoading && <Loading />}
             </form>
