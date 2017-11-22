@@ -79,7 +79,3 @@ select {
     margin-bottom: 16px;
 }
 
-:global(.error ){
-    height: 16px;
-    color: red;
-}
