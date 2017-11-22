@@ -89,7 +89,7 @@ class App extends Component {
                                     userInfo={this.state.userInfo}
                                 />
                             )} />
-                            <Route path='/users/:user_id' render={props => (
+                            <Route path='/dashboard' render={props => (
                                 <UserPage
                                     {...props}
                                     userInfo={this.state.userInfo}

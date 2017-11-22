@@ -15,7 +15,7 @@ const styles = {
 }
 
 const Menu = props => {
-    const { isLoggedIn, username } = props.userInfo
+    const { isLoggedIn } = props.userInfo
     const style = props.direction ? styles[props.direction] : styles.row
     return (
         <div style={style}>
@@ -23,7 +23,7 @@ const Menu = props => {
             <StyledNavLink to='/polls'>Polls</StyledNavLink>
             {isLoggedIn && <div style={style}>
                 <StyledNavLink to='/newpoll'>Create Poll</StyledNavLink>
-                <StyledNavLink to={`/users/${username}`}>Dashboard</StyledNavLink>
+                <StyledNavLink to={`/dashboard`}>Dashboard</StyledNavLink>
                 <StyledNavLink to='/signout'>Sign Out</StyledNavLink>
             </div>}
             {!isLoggedIn && <div style={style}>
