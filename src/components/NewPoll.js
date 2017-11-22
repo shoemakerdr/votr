@@ -160,7 +160,7 @@ class NewPoll extends Component {
                     : <NotLoggedIn />}
                 {errorMessage && <ErrorFlashMessage error={errorMessage}/>}
                 {this.redirectToPoll()}
-                { isLoggedIn() && <BackToLink to={`/users/${this.props.userInfo.username}`} message='To Your Dashboard' />}
+                { isLoggedIn() && <BackToLink to='/dashboard' message='To Your Dashboard' />}
                 {isLoading && <Loading />}
             </form>
         )
